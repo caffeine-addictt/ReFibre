@@ -21,3 +21,9 @@ source venv/bin/activate # Linux/Mac
 ```sh
 pip install -r requirements.txt
 ```
+
+# Testing Locally
+```sh
+pip install pytest
+pytest -s -v
+```
