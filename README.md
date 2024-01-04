@@ -27,7 +27,6 @@ pip install -r requirements.txt
 pip install pytest
 pytest -s -v
 ```
-hello 
 
 # Commit to remote repository
 ```sh
