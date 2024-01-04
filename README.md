@@ -27,4 +27,17 @@ pip install -r requirements.txt
 pip install pytest
 pytest -s -v
 ```
-hello 
+
+# Commit to remote repository
+```sh
+git commit -m "<commit message>" # Saves it local repository(branch)
+git push # Saves it to remote repository
+```
+
+# To merge main branch to local branch
+```sh
+git checkout main # Changes your from your local branch to local main branch
+git pull origin main # Pull and merge changes from the remote main branch into your local main branch
+git checkout <your branch name>
+git pull origin <your branch name>
+```
