@@ -1,9 +1,16 @@
-from flask import Flask, render_template, request, redirect, url_for
-from forms import SignUpForm
+from flask import Flask, render_template, request, redirect, url_for, session
+from flask_session import Session
+from forms import SignUpForm, SignInForm
 import shelve, customer
+from werkzeug.security import generate_password_hash
 
-
+# Configure app
 app = Flask(__name__)
+
+# Configure session
+app.secret_key = 'hello'
+app.config["SESSION_PERMANENT"] = False
+
 
 # route for root path
 @app.route('/')
@@ -17,20 +24,62 @@ def signup():
     if request.method == 'POST' and sign_up.validate():
         customers_dict = {}
         db = shelve.open('customer_db')
+        email = request.form['email']
 
         try:
             customers_dict = db['Customers']
         except:
-            print("Error in retrieving Customers from customer.db.")
+            print("Error in retrieving Customers from customer_db.")
 
-        user = customer.Customer(sign_up.first_name.data, sign_up.last_name.data, sign_up.email.data, sign_up.password.data)
+        # validate if user account already exits
+        for users in customers_dict:
+            user = SignUpForm.account_validate(email)
+            # if email address is already in use
+            if user:
+                db.close()
+                return render_template('signUp_fail.html', form=sign_up)
+            # if email address not in use
+            if not user:
+                break
+
+        hashed_password = generate_password_hash(sign_up.password.data)
+        user = customer.Customer(sign_up.first_name.data, sign_up.last_name.data, sign_up.email.data, hashed_password)
         customers_dict[user.get_customer_id()] = user
         db['Customers'] = customers_dict
 
         db.close()
 
-        return redirect(url_for('display_customers'))
+        return redirect(url_for('signin'))
     return render_template('signUp.html', form=sign_up)
+
+# route for customers to log in
+@app.route('/signin',  methods=['GET', 'POST'])
+def signin():
+    sign_in = SignInForm(request.form)
+    if request.method == 'POST' and sign_in.validate():
+        customers_dict = {}
+        db = shelve.open('customer_db')
+        email = sign_in.email.data
+        password = sign_in.password.data
+
+        try:
+            customers_dict = db['Customers']
+        except:
+            print("Error in retrieving Customers from customer_db.")
+
+        if sign_in.account_authenticate(email, password):
+            session["user"] = email
+            return render_template('home.html', form=sign_in)
+        else:
+            return render_template('signIn_fail.html', form=sign_in)
+        
+    return render_template('signIn.html', form=sign_in)
+
+# route for customer to sign out
+@app.route('/signout')
+def signout():
+    session["user"] = None
+    return redirect("/")
 
 # route to display customers
 @app.route('/displayCustomers')
@@ -75,6 +124,21 @@ def update_customer(id):
         update_user_form.password.data = user.get_password()
 
         return render_template('updateCustomer.html', form=update_user_form)
+    
+# Route to delete user
+@app.route('/deleteUser/<int:id>', methods=['POST'])
+def delete_user(id):
+    users_dict = {}
+    db = shelve.open('customer_db', 'w')
+    users_dict = db['Customers']
+
+    users_dict.pop(id)
+
+    db['Customers'] = users_dict
+    db.close()
+
+    return redirect(url_for('display_customers'))
+
 
 # remove CSRF protection for the time being
 app.config['WTF_CSRF_ENABLED'] = False
