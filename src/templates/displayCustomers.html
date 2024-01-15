@@ -33,8 +33,8 @@
                 <td>{{ user.get_password() }}</td>
                 <td><a href="/updateCustomer/{{user.get_customer_id()}}" class="btn btn-warning">Update</a></td>
                 <td>
-                    <form action="" method="POST">
-                        <input type="submit" value="Delete" class="btn btn-danger">
+                    <form action="{{url_for('delete_user', id=user.get_customer_id())}}" method="POST">
+                        <input type="submit" value="Delete" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete {{user.get_first_name()}} {{user.get_last_name()}}?');">
                     </form>
                 </td>
             </tr>
