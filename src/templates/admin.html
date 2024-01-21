@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block title %}Admin account{% endblock %}
+
+{% block content %}
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="#account_management">Account Management</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="#user_logins">User logins</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="#sales_management">Sales Management</a>
+    </li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane container-fluid active">
+        <p>Check by: Today Weekly Monthly Yearly</p>
+        <br>
+        <img src="static/crew-neck-t-shirt-shorts-low-top-sneakers-large-62660.jpg" style="margin-left: auto; margin-right: auto; display: block;">
+        <p style="text-align: center;">Total Amount of Accounts:</p>
+        <img src="static/bc1fab9c053a0bb210c7af4dcaf6ddb8.jpg" style="width: 325px; height: 406px; margin-left: auto; margin-right: auto; display: block;">
+        <p style="text-align: center;">Total Sales Made:</p>
+        <img src="static/il_570xN.3549918261_13ve.png" style="width: 325px; height: 406px; margin-left: auto; margin-right: auto; display: block;">
+        <p style="text-align: center;">Total Account Made:</p>
+    </div>
+
+
+
+
+    <div class="tab-pane container-fluid fade" id="account_management">
+        <br>
+        <a href="/createUser">Create Users</a>
+        <br><br>
+        <a href="/retrieveUsers">Retrieve Users</a>
+    </div>
+
+    <div class="tab-pane container-fluid fade" id="user_logins">
+        <br>
+        <h5>User history</h5>
+        <br>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Account ID</th>
+                    <th>When account created</th>
+                    <th>When login</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><a href="#" class="btn btn-warning">Update</a></td>
+                    <td>
+                        <form action="" method="post">
+                            <input type="submit" value="Delete" class="btn btn-danger">
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="tab-pane container-fluid fade" id="sales_management">
+        <br>
+        <h5>Management of Sales</h5>
+        <br>
+        <div style="display: flex; flex-direction: row; justify-content: space-between" class="flex-container">
+            <p style="border: solid; width: 316px; height: 60px;">Number of customers for the past 6 months:</p>
+            <p style="border: solid; width: 316px; height: 60px;">Tops sold:</p>
+            <p style="border: solid; width: 316px; height: 60px;">Bottoms sold:</p>
+         </div>
+         <p style="border: solid; width: 316px; height: 60px;">Hoodies sold:</p>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ItemNo</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Status</th>
+                    <th>Revenue</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><a href="#" class="btn btn-warning">Update</a></td>
+                    <td>
+                        <form action="" method="post">
+                            <input type="submit" value="Delete" class="btn btn-danger">
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
