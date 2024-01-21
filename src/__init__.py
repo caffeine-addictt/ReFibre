@@ -96,7 +96,7 @@ def display_customers():
 
     return render_template('displayCustomers.html', count=len(customers_list), users_list=customers_list)
 
-@app.route('/admin/updateCustomer/<int:id>/', methods=['GET', 'POST'])
+@app.route('/updateCustomer/<int:id>/', methods=['GET', 'POST'])
 def update_customer(id):
     update_user_form = SignUpForm(request.form)
     if request.method == 'POST' and update_user_form.validate():
@@ -126,7 +126,7 @@ def update_customer(id):
         return render_template('updateCustomer.html', form=update_user_form)
     
 # Route to delete user
-@app.route('/admin/deleteUser/<int:id>', methods=['POST'])
+@app.route('/deleteUser/<int:id>', methods=['POST'])
 def delete_user(id):
     users_dict = {}
     db = shelve.open('customer_db', 'w')
