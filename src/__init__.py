@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_session import Session
-from forms import SignUpForm, SignInForm
+from forms import SignUpForm, SignInForm, ContactForm
 import shelve, customer
 from werkzeug.security import generate_password_hash
 
@@ -144,6 +144,13 @@ def admin_page():
     return render_template("admin.html")
 
 
+# Route for contact us page
+@app.route('/contactUs', methods=['GET', 'POST'])
+def contact_us():
+    contact_us = ContactForm(request.form)
+    if request.method == 'POST' and contact_us.validate():
+            return redirect(url_for(''))
+    return render_template('contactUs.html', form=contact_us)
 
 # remove CSRF protection for the time being
 app.config['WTF_CSRF_ENABLED'] = False

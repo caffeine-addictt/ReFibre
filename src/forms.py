@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, EmailField, SubmitField, ValidationError
+from wtforms import StringField, PasswordField, EmailField, SubmitField, ValidationError, TextAreaField
 from wtforms.validators import DataRequired, Email, Length, EqualTo
 import shelve
 from werkzeug.security import check_password_hash
@@ -51,3 +51,10 @@ class SignInForm(FlaskForm):
                     return True
             else:
                 continue
+
+class ContactForm(FlaskForm):
+    first_name = StringField('First Name', [Length(min=1, max=150), DataRequired()])
+    last_name = StringField('Last Name', [Length(min=1, max=150), DataRequired()])
+    email = EmailField('Email', [Email(), DataRequired()])
+    message = TextAreaField('Remarks', [DataRequired()])
+    button = SubmitField(label='Submit')
