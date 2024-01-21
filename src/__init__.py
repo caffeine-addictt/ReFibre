@@ -139,6 +139,11 @@ def delete_user(id):
 
     return redirect(url_for('display_customers'))
 
+@app.route('/admin')
+def admin_page():
+    return render_template("admin.html")
+
+
 
 # remove CSRF protection for the time being
 app.config['WTF_CSRF_ENABLED'] = False
