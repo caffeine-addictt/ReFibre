@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}403 Forbidden{% endblock %}
+
+{% block content %}
+<div class="d-flex align-items-center justify-content-center vh-100">
+    <div class="text-center row">
+        <div class=" col-md-6">
+            <img src="../static/forbidden.jpg" alt="" class="img-fluid">
+        </div>
+        <div class=" col-md-6 mt-5">
+            <p class="fs-3"> <span class="text-danger">Oops!</span> Access Denied.</p>
+            <p class="lead">
+                You do not have access to this page
+            </p>
+            <a href="/" class="btn btn-dark">Go Home</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
