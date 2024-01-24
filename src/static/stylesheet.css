@@ -1,4 +1,7 @@
-/* Adjust link size in footer */
+html{
+  scroll-behavior: smooth;
+}
+
 .footer-link{
     font-size: larger;
 }
@@ -47,3 +50,16 @@
    border-top: 0;
    border-bottom: 0.3em solid;
  }
+
+ /* Styling for homepage */
+
+.homepagecover-text {
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 1rem;
+  text-shadow: 0.5px 0.5px #000;
+}

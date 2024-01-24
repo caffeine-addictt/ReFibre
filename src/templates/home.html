@@ -1,5 +1,104 @@
 {% extends "base.html" %}
-{% block title %}Customer list{% endblock %}
+{% block title %}Homepage{% endblock %}
 
 {% block content %}
+<!-- Homepage cover pic -->
+<div style="width: 97%; height: 30%;" class="mx-auto mb-4">
+    <div style="position: relative; display: flex; justify-content: center;">
+        <div class="homepagecover-text pb-10" style="z-index: 50; backdrop-filter: blur(1px);">
+            <h1 class="text-white">ReFiber</h1>
+            <h3 class="text-white">Got Fiber? We Recycle</h3>
+            <div class="mt-3"></div>
+            {% if session["user"] %}
+            <a href="#"><button type="button" class="btn btn-dark fw-bold mt-5">My Rewards</button></a>
+            {% else %}
+            <a href="/signup"><button type="button" class="btn btn-dark fw-bold mt-5">Join Us</button></a>
+            {% endif %}
+        </div>
+        <img src="../static/homepage-front.jpg" style="width: 100%; height: 100%; " />
+    </div>
+</div>
+
+<div style="margin-top: 8%;"></div>
+
+<div class="my-5">
+    <div class="container mt-5">
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <div><img src="../static/Homepage_about_1.webp" class="img-fluid"></div>
+            </div>
+            <div class="col-md-6">
+                <h3 class="text-center text-dark">About Us</h3>
+                <p>We are ReFiber, a clothing company that sells high quality recycled clothing garment. Founded in
+                    2014, our goal is to reduce the global wastage of textile waste by reusing the discarded textiles
+                    and
+                    giving them a second chance.</p>
+                <h3 class="text-center text-dark">Do You Know?</h3>
+                <p>92 Million tons of textile waste is being produced every single year, this
+                    contributes to 7% of
+                    the total amount of waste in global landfill space! Many of these textile waste are a result of
+                    the
+                    fashion industry adopting the trend of fast fashion. Fast fashion describes low-priced but
+                    stylish
+                    clothing that moves quickly from design to retail stores to meet trends. This results in a high
+                    amount
+                    of textile waste due to many of these clothes breaking down easily, due to the low quality
+                    material,
+                    and
+                    being discarded quickly.</p>
+
+            </div>
+        </div>
+        <br>
+        <div class="row mt-5 mb-5">
+            <div class="col-md-6">
+                <div><img src="../static/homepage_about_2.webp" class="img-fluid"></div>
+            </div>
+            <div class="col-md-6">
+                <h3 class="text-center text-dark">Why ReFiber?</h3>
+                <p>Here at ReFiber, all of our clothes are made with at least 10% of recycled materials, we source these
+                    discarded textiles from clothes thrown away by companies
+                    and our partners from SembCorp that helps us sort these discarded textiles. After sourcing our
+                    textiles, the clothes will be produced at our factory in Singapore, each piece of garment is
+                    meticulously crafted with strict quality control, ensuring a long shelf life and comfortability for
+                    you. Unfortunately, only 1% of discarded textiles are recycled, this is due to the fact that many of
+                    these
+                    fast fashion companies simply using materials that are cannot be recycled and easily thrown away.
+                    But
+                    this is where we come in. Our mission is to produce clothes that are long lasting and recyclable</p>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="margin-top: 8%;"></div>
+
+<div class="mb-5">
+    <h1 class="text-center text-uppercase mb-2">What are you looking for?</h1>
+    <div class="container mt-2">
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <a class="link-underline-opacity-0 text-dark" style="text-decoration: none;" href="#">
+                    <div><img src="../static/homepage_waylf_1.webp" class="img-fluid"></div>
+                    <h1 class="">Men</h1>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a class="link-underline-opacity-0 text-dark" style="text-decoration: none;" href="#">
+                    <div><img src="../static/homepage_waylf_2.webp" class="img-fluid"></div>
+                    <h1>Women</h1>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a class="link-underline-opacity-0 text-dark" style="text-decoration: none;" href="#">
+                    <div><img src="../static/homepage_waylf_3.webp" class="img-fluid"></div>
+                    <h1>New Arrivals</h1>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="margin-bottom: 10%;"></div>
 {% endblock %}
