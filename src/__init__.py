@@ -15,6 +15,7 @@ app.config["SESSION_PERMANENT"] = False
 # route for root path
 @app.route('/')
 def home():
+    session["user"] = None
     return render_template('home.html')
 
 # route for sign up page
@@ -139,9 +140,12 @@ def delete_user(id):
 
     return redirect(url_for('display_customers'))
 
-@app.route('/admin')
+@app.route('/signin/admin')
 def admin_page():
-    return render_template("admin.html")
+    if session["user"] == "admin.refiber@gmail.com":
+        return render_template("admin.html")
+    else:
+        return render_template("forbidden.html")
 
 
 # Route for contact us page
@@ -149,7 +153,7 @@ def admin_page():
 def contact_us():
     contact_us = ContactForm(request.form)
     if request.method == 'POST' and contact_us.validate():
-            return redirect(url_for(''))
+            return render_template('contactSubmission.html')
     return render_template('contactUs.html', form=contact_us)
 
 # remove CSRF protection for the time being
