@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, EmailField, SubmitField, ValidationError, validators, TextAreaField, IntegerField
+from wtforms import StringField, PasswordField, EmailField, SubmitField, ValidationError, validators, TextAreaField, IntegerField, DateField, RadioField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, Regexp
 import shelve
 from werkzeug.security import check_password_hash
@@ -112,3 +112,23 @@ class CreditCardDetail(FlaskForm):
 
 class RewardPoints(FlaskForm):
     reward_point = IntegerField('Reward Points', [DataRequired()])
+
+
+class Customer_details_form(FlaskForm):
+    first_name = StringField('First Name', [Length(min=1, max=150), DataRequired()])
+    last_name = StringField('Last Name', [Length(min=1, max=150), DataRequired()])
+    email = EmailField('Email', [Email(), DataRequired()])
+    gender = RadioField('Gender', choices=[('male', 'Male'), ('female', 'Female')])
+    postal_code = TextAreaField('Postal Code', [validators.length(max=200), validators.DataRequired()])
+    address = TextAreaField('Address', [validators.length(max=200), validators.DataRequired()])
+    date_of_birth = DateField ('Date of Birth', format='%Y-%m-%d')
+    button = SubmitField(label='Update')
+
+class CreditCardForm(FlaskForm):
+    card_number = StringField('Card Number', [validators.Length(min=16, max=16), validators.DataRequired()])
+    expiration_date = DateField('Expiration Date (YYYY-MM)', format='%Y-%m', validators=[validators.DataRequired()])
+    cvv = IntegerField('CVV', [validators.NumberRange(min=100, max=999), validators.DataRequired(), validators.Length(min=3, max=3)])
+    name = StringField('Name', [validators.Length(min=1, max=150), validators.DataRequired()])
+    save_changes = SubmitField('Save Changes')
+
+
