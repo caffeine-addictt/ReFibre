@@ -1,12 +1,12 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, EmailField, SubmitField, ValidationError, TextAreaField
-from wtforms.validators import DataRequired, Email, Length, EqualTo
+from wtforms.validators import DataRequired, Email, Length, EqualTo, Regexp
 import shelve
 from werkzeug.security import check_password_hash
 
 class SignUpForm(FlaskForm):
-    first_name = StringField('First Name', [Length(min=1, max=150), DataRequired()])
-    last_name = StringField('Last Name', [Length(min=1, max=150), DataRequired()])
+    first_name = StringField('First Name', [Length(min=1, max=150), Regexp('^[a-zA-Z]+$', message="Username must contain only alphabetic characters."), DataRequired()])
+    last_name = StringField('Last Name', [Length(min=1, max=150), Regexp('^[a-zA-Z]+$', message="Username must contain only alphabetic characters."), DataRequired()], )
     email = EmailField('Email', [Email(), DataRequired()])
     password = PasswordField('Password', validators=[
         DataRequired(),
@@ -53,8 +53,8 @@ class SignInForm(FlaskForm):
                 continue
 
 class ContactForm(FlaskForm):
-    first_name = StringField('First Name', [Length(min=1, max=150), DataRequired()])
-    last_name = StringField('Last Name', [Length(min=1, max=150), DataRequired()])
+    first_name = StringField('First Name', [Length(min=1, max=150), Regexp('^[a-zA-Z]+$', message="Username must contain only alphabetic characters."), DataRequired()])
+    last_name = StringField('Last Name', [Length(min=1, max=150), Regexp('^[a-zA-Z]+$', message="Username must contain only alphabetic characters."), DataRequired()])
     email = EmailField('Email', [Email(), DataRequired()])
-    message = TextAreaField('Remarks', [DataRequired()])
+    message = TextAreaField('Remarks', [Length(min=10, message="Message must contain more than 5 letters"), DataRequired()])
     button = SubmitField(label='Submit')
