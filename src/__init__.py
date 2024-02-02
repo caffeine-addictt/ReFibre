@@ -178,6 +178,35 @@ def display_customers():
 
     return render_template('displayCustomers.html', count=len(customers_list), users_list=customers_list)
 
+@app.route('/updateCustomer/<int:id>/', methods=['GET', 'POST'])
+def update_customer(id):
+    update_user_form = SignUpForm(request.form)
+    if request.method == 'POST' and update_user_form.validate():
+        db = shelve.open('customer_db', 'w')
+        users_dict = db['Customers']
+        user = users_dict.get(id)
+        user.set_first_name(update_user_form.first_name.data)
+        user.set_last_name(update_user_form.last_name.data)
+        user.set_email(update_user_form.email.data)
+        user.set_password(update_user_form.password.data)
+        db['Customers'] = users_dict
+        db.close()
+
+        return redirect(url_for('display_customers'))
+    else:
+        users_dict = {}
+        db = shelve.open('customer_db', 'r')
+        users_dict = db['Customers']
+        db.close()
+
+        user = users_dict.get(id)
+        update_user_form.first_name.data = user.get_first_name()
+        update_user_form.last_name.data = user.get_last_name()
+        update_user_form.email.data = user.get_email()
+        update_user_form.password.data = user.get_password()
+
+        return render_template('updateCustomer.html', form=update_user_form)
+
     
 @app.route('/reward_points/<int:id>/', methods=['GET', 'POST'])
 def update_reward_points(id):
