@@ -1,8 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_session import Session
-from forms import SignUpForm, SignInForm, ContactForm
+from forms import SignUpForm, SignInForm, CreateBuyerForm, CreditCardDetail
 import shelve, customer
 from werkzeug.security import generate_password_hash
+from checkout import User, Banking
+import uuid
 
 # Configure app
 app = Flask(__name__)
@@ -15,6 +17,80 @@ app.config["SESSION_PERMANENT"] = False
 @app.route('/')
 def home():
     return render_template('home.html')
+
+@app.route('/confirmation_page')
+def thank_you_for_purchase():
+    # Generate a random purchase ID
+    purchase_id = str(uuid.uuid4())[:15]
+
+    # Render the thank you page with the purchase ID
+    return render_template('lastpage.html', purchase_id=purchase_id)
+
+@app.route('/checkout', methods=['GET','POST'])
+def personal_detail():
+    create_buyer_form = CreateBuyerForm(request.form)
+    if request.method == 'POST' and create_buyer_form.validate():
+        buyers_dict = {}
+        db = shelve.open('buyers_db')
+
+        try:
+            buyers_dict = db['Buyers','w']
+        except:
+            print("Error in retrieving Buyers from buyers_db.")
+
+        user = User(create_buyer_form.username.data, create_buyer_form.address.data, create_buyer_form.code.data, create_buyer_form.pnumber.data, create_buyer_form.email.data)
+        buyers_dict[user.get_username()] = user
+        db['Buyers'] = buyers_dict
+
+        db.close()
+        return redirect(url_for('banking_detail'))
+    return render_template('checkout.html', form=create_buyer_form)
+
+@app.route('/checkout1', methods=['GET','POST'])
+def banking_detail():
+    create_banking_details = CreditCardDetail(request.form)
+    if request.method == 'POST' and create_banking_details.validate():
+        details_dict = {}
+        db = shelve.open('details_db')
+
+        try:
+            details_dict = db['Details','w']
+        except:
+            print("Error in retrieving Details from details_db.")
+    
+        user = Banking(create_banking_details.nameID.data, create_banking_details.credit.data, create_banking_details.expiry.data, create_banking_details.cvv.data)
+        details_dict[user.get_nameID()] = user
+        db['Details'] = details_dict
+
+        db.close()
+        return redirect(url_for('display_buyers'))
+    return render_template('checkout1.html', form=create_banking_details)
+
+@app.route('/confirm')
+def display_buyers():
+    buyers_dict = {}
+    db = shelve.open('buyers_db', 'r')
+    buyers_dict = db['Buyers']
+    db.close()
+
+    buyers_list = []
+    for key in buyers_dict:
+        user = buyers_dict.get(key)
+        buyers_list.append(user)
+
+    details_dict = {}
+    db = shelve.open('details_db', 'r')
+    details_dict = db['Details']
+    db.close()
+
+    details_list = []
+    for key in details_dict:
+        user = details_dict.get(key)
+        details_list.append(user)
+
+    return render_template('confirm.html', count=len(buyers_list), users_list=buyers_list, banking_list=details_list)
+
+
 
 # route for sign up page
 @app.route('/signup', methods=['GET', 'POST'])
