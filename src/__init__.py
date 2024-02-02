@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_session import Session
-from forms import SignUpForm, SignInForm, ContactForm, CreateBuyerForm, CreditCardDetail
+from forms import SignUpForm, SignInForm, ContactForm, CreateBuyerForm, CreditCardDetail, RewardPoints
 import shelve, customer
+from customer import Customer
 from werkzeug.security import generate_password_hash
 from checkout import User, Banking
 import uuid
@@ -203,6 +204,31 @@ def update_customer(id):
 
         return render_template('updateCustomer.html', form=update_user_form)
     
+@app.route('/reward_points/<int:id>/', methods=['GET', 'POST'])
+def update_reward_points(id):
+    update_reward_form = RewardPoints(request.form)
+    if request.method == 'POST' and update_reward_form.validate():
+        db = shelve.open('customer_db', 'w')
+        customers_dict = db['Customers']
+        customer = customers_dict.get(id)
+        customer.set_reward_point(update_reward_form.reward_point.data)
+        db['Customers'] = customers_dict
+        db.close()
+
+        return redirect(url_for('admin_page'))
+    else:
+        customers_dict = {}
+        db = shelve.open('customer_db', 'r')
+        customers_dict = db['Customers']
+        db.close()
+
+        customer = customers_dict.get(id)
+        update_reward_form.reward_point.data = customer.get_reward_point()
+
+        return render_template('reward_points.html', form=update_reward_form)
+
+
+    
 # Route to delete user
 @app.route('/deleteUser/<int:id>', methods=['POST'])
 def delete_user(id):
@@ -221,11 +247,34 @@ def delete_user(id):
 def admin_page():
     try:
         if session["user"] == "admin.refiber@gmail.com":
-            return render_template("admin.html")
+            customers_dict = {}
+            db = shelve.open('customer_db', 'r')
+            customers_dict = db['Customers']
+            db.close()
+
+            customers_list = []
+            for key in customers_dict:
+                user = customers_dict.get(key)
+                customers_list.append(user)
+
+            return render_template("admin.html", count=len(customers_list), users_list=customers_list)
         else:
             return render_template("forbidden.html")
     except:
         return render_template("forbidden.html")
+@app.route('/deleteCustomer/<int:id>', methods=['POST'])
+def delete_customer(id):
+    customers_dict = {}
+    db = shelve.open('customer_db', 'w')
+    customers_dict = db['Customers']
+
+    customers_dict.pop(id)
+
+    db['Customers'] = customers_dict
+    db.close()
+
+    return redirect(url_for('admin_page'))
+
 
 
 # Route for contact us page
