@@ -11,11 +11,9 @@ app = Flask(__name__)
 app.secret_key = 'hello'
 app.config["SESSION_PERMANENT"] = False
 
-
 # route for root path
 @app.route('/')
 def home():
-    session["user"] = None
     return render_template('home.html')
 
 # route for sign up page
@@ -79,8 +77,11 @@ def signin():
 # route for customer to sign out
 @app.route('/signout')
 def signout():
-    session["user"] = None
-    return redirect("/")
+    try:
+        session["user"] = None
+        return redirect("/")
+    except:
+        return render_template("forbidden.html")
 
 # route to display customers
 @app.route('/displayCustomers')
@@ -142,9 +143,12 @@ def delete_user(id):
 
 @app.route('/signin/admin')
 def admin_page():
-    if session["user"] == "admin.refiber@gmail.com":
-        return render_template("admin.html")
-    else:
+    try:
+        if session["user"] == "admin.refiber@gmail.com":
+            return render_template("admin.html")
+        else:
+            return render_template("forbidden.html")
+    except:
         return render_template("forbidden.html")
 
 
