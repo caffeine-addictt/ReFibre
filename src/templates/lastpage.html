@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}LASTPAGE{% endblock %}
+
+{% block content %}
+{% from "includes/_formhelper.html" import render_field %}
+<section class="checkout">
+    <ul class="checkout-bar">
+        <li class="checkout-steps">
+            <span class="progress-count-done">1</span>
+            <span class="progress-label">Shopping Cart</span>
+        </li>
+        <li class="checkout-steps">
+            <span class="progress-count-done">2</span>
+            <span class="progress-label">Personal Details</span>
+        </li>
+        <li class="checkout-steps">
+            <span class="progress-count-done">3</span>
+            <span class="progress-label">Payment Method</span>
+        </li>
+        <li class="checkout-steps">
+            <span class="progress-count-done">4</span>
+            <span class="progress-label">Confirmation</span>
+        </li>
+    </ul>
+</section>
+<div class="text-center">
+    <h3>Thank You for Your Purchase!</h3>
+    <p>Here is your generated purchase ID: <strong>{{ purchase_id }}</strong></p>
+    <a href="/"><button>Return to store</button></a>
+</div>
+
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Checkout{% endblock %}
+
+{% block content %}
+{% from "includes/_formhelper.html" import render_field %}
+<section class="checkout">
+    <ul class="checkout-bar">
+        <li class="checkout-steps">
+            <span class="progress-count-done">1</span>
+            <span class="progress-label">Shopping Cart</span>
+        </li>
+        <li class="checkout-steps">
+            <span class="progress-count-done">2</span>
+            <span class="progress-label">Personal Details</span>
+        </li>
+        <li class="checkout-steps current-item">
+            <span class="progress-count-yet">3</span>
+            <span class="progress-label">Payment Method</span>
+        </li>
+        <li class="checkout-steps">
+            <span class="progress-count-yet">4</span>
+            <span class="progress-label">Confirmation</span>
+        </li>
+    </ul>
+</section>
+
+<div class="container-checkout">
+    <form method="POST" action="">
+        <div class="row">
+            <h3 class="title">Payment Method</h3>
+
+            <div class="inputform">
+                <span>Cards accepted: </span>
+                <img src="../static/card.jpg" alt="">
+            </div>
+            <div class="form-checkout">
+                {{render_field(form.nameID, class="form-control")}}
+            </div>
+            <div class="form-checkout">
+                {{render_field(form.credit, class="form-control")}}
+            </div>
+            <div class="form-checkout">
+                {{render_field(form.expiry, class="form-control")}}
+            </div>
+            <div class="form-checkout">
+                {{render_field(form.cvv, class="form-control")}}
+            </div>
+            
+                <button type="submit">Submit</button>
+ 
+        </div>
+    </form>
+</div>
+{% endblock %}

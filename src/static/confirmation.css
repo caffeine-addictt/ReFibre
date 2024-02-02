@@ -1,0 +1,40 @@
+.custom-table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 15px;
+    padding-left: 100px;
+  }
+
+p {
+  font-size: 20px;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.p2 {
+  padding-left: 150px;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.p1 {
+  padding-left: 130px;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.custom-table th,
+.custom-table td {
+    border: none;
+    text-align: left;
+    padding: 10px;
+    white-space: nowrap; 
+    display: block;
+    font-size: 15px;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin-bottom: 15px;
+  }
+
+
+.container-confirm {
+  margin-top: 100px;
+  margin-left: 270px;
+}
+
