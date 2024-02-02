@@ -12,6 +12,9 @@ class Customer(User):
         self.__address = None
         self.__date_of_birth = None
         self.__reward_point = None
+        self.__card_number = None
+        self.__expiration_date = None
+        self.__cvv  = None
 
     # Function for generating user ID with persistant storage
     @staticmethod
@@ -40,6 +43,14 @@ class Customer(User):
         return self.__date_of_birth
     def get_reward_point(self):
         return self.__reward_point
+    def get_card_number(self):
+        return self.__card_number
+    def get_expiration_date(self):
+        return self.__expiration_date
+    def get_cvv(self):
+        return self.__cvv
+    
+    
     
     # Mutator methods
     def set_customer_id(self, customer_id):
@@ -58,3 +69,9 @@ class Customer(User):
         self.__date_of_birth = date_of_birth
     def set_reward_point(self, reward_point):
         self.__reward_point = reward_point
+    def set_card_number(self, card_number):
+        self.__card_number = card_number
+    def set_expiration_date(self, expiration_date):
+        self.__card_number = expiration_date
+    def set_cvv(self, cvv):
+        self.__card_number = cvv

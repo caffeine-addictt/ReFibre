@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}User details{% endblock %}
+
+{% block content %}
+<div class="container-xl px-4 mt-4">
+    <!-- Account page navigation-->
+    <nav class="nav nav-borders">
+        <a class="nav-link active ms-0" href="/signin/userdetails" target="__blank">Profile</a>
+        <a class="nav-link" href="/signin/userbilling" target="__blank">Billing</a>
+        <a class="nav-link" href="/signin/usersecurity" target="__blank">Security</a>
+    </nav>
+    <hr class="mt-0 mb-4">
+    <div class="row">
+        <div class="col-xl-8">
+            <!-- Account details card-->
+            <div class="card mb-4">
+                <div class="card-header">User details</div>
+                <div class="card-body">
+                    <!-- Profile picture image-->
+                    <img class="img-account-profile rounded-circle mb-2" src="" alt="">
+                    {% for user in users_list %}
+
+                    <!-- Form Row-->
+                    <div class="row gx-3 mb-3">
+                        <!-- Form Group (first name)-->
+                        <div class="col-md-6">
+                            <label class="small mb-1" for="inputFirstName">First name:</label>
+                            {{ user.get_first_name() }}
+                        </div>
+                        <!-- Form Group (last name)-->
+                        <div class="col-md-6">
+                            <label class="small mb-1" for="inputLastName">Last name:</label>
+                            {{ user.get_last_name() }}
+                        </div>
+                        <!-- Form Group (Email)-->
+                        <div class="col-md-6">
+                            <label class="small mb-1" for="inputGender">Email:</label>
+                            {{ user.get_email() }}
+                        </div>
+                    </div>
+                    <!-- Form Row -->
+                    <div class="row gx-3 mb-3">
+                        <!-- Form Group (Gender)-->
+                        <div class="col-md-6">
+                            <label class="small mb-1" for="inputGender">Gender:</label>
+                            {{ user.get_gender() }}
+                        </div>
+                        <!-- Form Group (Address)-->
+                        <div class="col-md-6">
+                            <label class="small mb-1" for="inputAddress">Address:</label>
+                            {{ user.get_address() }}
+                        </div>
+                        <!-- Form Group (postal code)-->
+                        <div class="col-md-6">
+                            <label class="small mb-1" for="inputAddress">Postal Code:</label>
+                            {{ user.get_postal_code() }}
+                        </div>
+
+                    </div>
+                    <!-- Form Row-->
+                    <div class="row gx-3 mb-3">
+                        <!-- Form Group (Date of birth)-->
+                        <div class="col-md-6">
+                            <label class="small mb-1" for="inputDate">Date of Birth:</label>
+                            {{ user.get_date_of_birth() }}
+                        </div>
+                    </div>
+                    <!-- Save changes button-->
+                    <a href="/signin/user_update/{{user.get_customer_id()}}"><button class="btn btn-primary"
+                            type="button">Update</button></a>
+
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

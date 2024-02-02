@@ -1,11 +1,14 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_session import Session
-from forms import SignUpForm, SignInForm, ContactForm, CreateBuyerForm, CreditCardDetail, RewardPoints
+from forms import SignUpForm, SignInForm, ContactForm, CreateBuyerForm, CreditCardDetail, RewardPoints, Customer_details_form, CreditCardForm
 import shelve, customer
 from customer import Customer
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 from checkout import User, Banking
 import uuid
+from flask_wtf.csrf import CSRFProtect
+from flask import flash
+
 
 # Configure app
 app = Flask(__name__)
@@ -175,34 +178,6 @@ def display_customers():
 
     return render_template('displayCustomers.html', count=len(customers_list), users_list=customers_list)
 
-@app.route('/updateCustomer/<int:id>/', methods=['GET', 'POST'])
-def update_customer(id):
-    update_user_form = SignUpForm(request.form)
-    if request.method == 'POST' and update_user_form.validate():
-        db = shelve.open('customer_db', 'w')
-        users_dict = db['Customers']
-        user = users_dict.get(id)
-        user.set_first_name(update_user_form.first_name.data)
-        user.set_last_name(update_user_form.last_name.data)
-        user.set_email(update_user_form.email.data)
-        user.set_password(update_user_form.password.data)
-        db['Customers'] = users_dict
-        db.close()
-
-        return redirect(url_for('display_customers'))
-    else:
-        users_dict = {}
-        db = shelve.open('customer_db', 'r')
-        users_dict = db['Customers']
-        db.close()
-
-        user = users_dict.get(id)
-        update_user_form.first_name.data = user.get_first_name()
-        update_user_form.last_name.data = user.get_last_name()
-        update_user_form.email.data = user.get_email()
-        update_user_form.password.data = user.get_password()
-
-        return render_template('updateCustomer.html', form=update_user_form)
     
 @app.route('/reward_points/<int:id>/', methods=['GET', 'POST'])
 def update_reward_points(id):
@@ -284,6 +259,229 @@ def contact_us():
     if request.method == 'POST' and contact_us.validate():
             return render_template('contactSubmission.html')
     return render_template('contactUs.html', form=contact_us)
+
+# Route for user_details
+@app.route('/signin/userdetails')
+def display_user_info():
+    customers_dict = {}
+    db = shelve.open('customer_db', 'r')
+    customers_dict = db['Customers']
+    db.close()
+
+    customers_list = []
+    user_info = []
+    for key in customers_dict:
+        user = customers_dict.get(key)
+        customers_list.append(user)
+        for User in customers_list:
+            if session["user"] == User.get_email():
+                user_info.append(User)
+            else:
+                continue
+
+    return render_template('user_details.html', users_list=user_info)
+
+
+# route to user update
+@app.route('/signin/user_update/<int:id>/', methods=['GET', 'POST'])
+def user_update(id):
+    user_details_form = Customer_details_form(request.form)
+    if request.method == 'POST' and user_details_form.validate():
+        db = shelve.open('customer_db', 'w')
+        users_dict = db['Customers']
+        user = users_dict.get(id)
+        user.set_first_name(user_details_form.first_name.data)
+        user.set_last_name(user_details_form.last_name.data)
+        user.set_email(user_details_form.email.data)
+        user.set_gender(user_details_form.gender.data)
+        user.set_postal_code(user_details_form.postal_code.data)
+        user.set_address(user_details_form.address.data)
+        user.set_date_of_birth(user_details_form.date_of_birth.data)
+        db['Customers'] = users_dict
+        db.close()
+
+        return redirect(url_for('display_user_info'))
+    else:
+        users_dict = {}
+        db = shelve.open('customer_db', 'r')
+        users_dict = db['Customers']
+        db.close()
+
+        user = users_dict.get(id)
+        user_details_form.first_name.data = user.get_first_name()
+        user_details_form.last_name.data = user.get_last_name()
+        user_details_form.email.data = user.get_email()
+        user_details_form.gender.data = user.get_gender()
+        user_details_form.postal_code.data = user.get_postal_code()
+        user_details_form.address.data = user.get_address()
+        user_details_form.date_of_birth.data = user.get_date_of_birth()
+
+
+        return render_template('user_update.html', form= user_details_form)
+    
+# route to user billing    
+@app.route('/signin/userbilling')  # Change the route here
+def display_user_billing():
+    customers_dict = {}
+    db = shelve.open('customer_db', 'r')
+    customers_dict = db['Customers']
+    db.close()
+
+    customers_list = []
+    user_info = []
+
+    for key in customers_dict:
+        user = customers_dict.get(key)
+        customers_list.append(user)
+        for User in customers_list:
+            if session["user"] == User.get_email():
+                user_info.append(User)
+
+    return render_template('user_billing.html', users_list=user_info)
+
+# route to payment method
+@app.route('/signin/add_payment_method', methods=['GET', 'POST'])
+def add_payment_method():
+    if 'user' not in session:
+        return redirect(url_for('signin'))
+
+    customers_dict = {}
+    db = shelve.open('customer_db', 'w')
+    customers_dict = db['Customers']
+    db.close()
+
+    user_info = None
+
+    for key in customers_dict:
+        user = customers_dict.get(key)
+        if session["user"] == user.get_email():
+            user_info = user
+            break
+
+    if user_info is None:
+        return redirect(url_for('signin'))
+
+    form = CreditCardForm(request.form)
+
+    if request.method == 'POST' and form.validate():
+        card_number = form.card_number.data
+        expiration_date = form.expiration_date.data
+        cvv = form.cvv.data
+
+        # Update the credit card details
+        user_info.set_credit_card(card_number, expiration_date, cvv)
+
+        # Update the customer data in the shelf
+        db = shelve.open('customer_db', 'w')
+        db['Customers'][key] = user_info  # Update the specific user in the dictionary
+        db.close()
+
+        flash('Payment method added successfully', 'success')
+        return redirect(url_for('display_user_billing'))
+
+    return render_template('add_payment_method.html', user_info=user_info, form=form)
+
+
+# route to edit credit card details
+@app.route('/signin/edit_credit_card', methods=['GET', 'POST'])
+def edit_credit_card():
+    if 'user' not in session:
+        return redirect(url_for('signin'))
+
+    customers_dict = {}
+    db = shelve.open('customer_db', 'w')
+    customers_dict = db['Customers']
+    db.close()
+
+    user_info = None
+
+    for key in customers_dict:
+        user = customers_dict.get(key)
+        if session["user"] == user.get_email():
+            user_info = user
+            break
+
+    if user_info is None:
+        return redirect(url_for('signin'))
+
+    if request.method == 'POST':
+        card_number = request.form.get('card_number')
+        expiration_date = request.form.get('expiration_date')
+        cvv = request.form.get('cvv')
+
+        # Update the credit card details
+        user_info.set_credit_card(card_number, expiration_date, cvv)
+
+        # Update the customer data in the shelf
+        db = shelve.open('customer_db', 'w')
+        db['Customers'][key] = user_info  # Update the specific user in the dictionary
+        db.close()
+
+        flash('Credit card details updated successfully', 'success')
+        return redirect(url_for('display_user_billing'))
+
+    return render_template('edit_credit_card.html', user_info=user_info)
+
+
+# route to display user security
+@app.route('/signin/usersecurity')
+def display_user_security():
+    return render_template('user_security.html')
+
+
+# route for changing the password
+@app.route('/change_password', methods=['POST'])
+def change_password():
+    if 'user' not in session:
+        return redirect(url_for('signin'))
+
+    customers_dict = {}
+    db = shelve.open('customer_db', 'w')
+    customers_dict = db['Customers']
+    db.close()
+
+    user_info = None
+
+    for key in customers_dict:
+        user = customers_dict.get(key)
+        if session["user"] == user.get_email():
+            user_info = user
+            break
+
+    if user_info is None:
+        return redirect(url_for('signin'))
+
+    current_password = request.form.get('current_password')
+    new_password = request.form.get('new_password')
+    confirm_password = request.form.get('confirm_password')
+
+    if not current_password or not new_password or not confirm_password:
+        flash('All fields must be filled', 'danger')
+        return redirect(url_for('display_user_security'))
+
+    # Check if the entered current password matches the stored hashed password
+    if not check_password_hash(user_info.get_password(), current_password.encode('utf-8')):
+        flash('Current password is incorrect', 'danger')
+        return redirect(url_for('display_user_security'))
+
+    if new_password != confirm_password:
+        flash('New password and confirm password must match', 'danger')
+        return redirect(url_for('display_user_security'))
+
+    # Hash and set the new password
+    hashed_new_password = generate_password_hash(new_password)
+    user_info.set_password(hashed_new_password)
+
+    # Update the customer data in the shelf
+    db = shelve.open('customer_db', 'w')
+    db['Customers'] = customers_dict
+    db.close()
+
+    flash('Password changed successfully', 'success')
+    return redirect(url_for('display_user_security'))
+
+
+
 
 # remove CSRF protection for the time being
 app.config['WTF_CSRF_ENABLED'] = False
