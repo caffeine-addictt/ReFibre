@@ -4,7 +4,7 @@
 {% block content %}
 <ul class="nav nav-tabs">
     <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="tab" href="#account_management">Account Management</a>
+        <a class="nav-link active" data-bs-toggle="tab" href="#sales_overview">Sales Overview</a>
     </li>
     <li class="nav-item">
         <a class="nav-link" data-bs-toggle="tab" href="#user_logins">User logins</a>
@@ -14,7 +14,7 @@
     </li>
 </ul>
 <div class="tab-content">
-    <div class="tab-pane container-fluid active">
+    <div class="tab-pane container-fluid active" id="sales_overview">
         <p>Check by: Today Weekly Monthly Yearly</p>
         <br>
         <img src="static/crew-neck-t-shirt-shorts-low-top-sneakers-large-62660.jpg" style="margin-left: auto; margin-right: auto; display: block;">
@@ -25,16 +25,6 @@
         <p style="text-align: center;">Total Account Made:</p>
     </div>
 
-
-
-
-    <div class="tab-pane container-fluid fade" id="account_management">
-        <br>
-        <a href="/createUser">Create Users</a>
-        <br><br>
-        <a href="/retrieveUsers">Retrieve Users</a>
-    </div>
-
     <div class="tab-pane container-fluid fade" id="user_logins">
         <br>
         <h5>User history</h5>
@@ -43,24 +33,29 @@
             <thead>
                 <tr>
                     <th>Account ID</th>
-                    <th>When account created</th>
-                    <th>When login</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
                     <th>Email</th>
+                    <th>Reward Points</th>
                 </tr>
             </thead>
             <tbody>
+                {% for user in users_list %}
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td><a href="#" class="btn btn-warning">Update</a></td>
+
+                    <td>{{ user.get_customer_id() }}</td>
+                    <td>{{ user.get_first_name() }}</td>
+                    <td>{{ user.get_last_name() }}</td>
+                    <td>{{ user.get_email() }}</td>
+                    <td>{{ user.get_reward_point() }}</td>
+                    <td><a href="/reward_points/{{user.get_customer_id()}}" class="btn btn-warning">Update</a></td>
                     <td>
-                        <form action="" method="post">
-                            <input type="submit" value="Delete" class="btn btn-danger">
+                        <form action="{{url_for('delete_customer', id=user.get_customer_id())}}" method="POST">
+                            <input type="submit" value="Delete" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete {{user.get_first_name()}} {{user.get_last_name()}}?')">
                         </form>
                     </td>
                 </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>

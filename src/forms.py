@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, EmailField, SubmitField, ValidationError, validators, TextAreaField
+from wtforms import StringField, PasswordField, EmailField, SubmitField, ValidationError, validators, TextAreaField, IntegerField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, Regexp
 import shelve
 from werkzeug.security import check_password_hash
@@ -109,3 +109,6 @@ class CreditCardDetail(FlaskForm):
     credit = StringField('Credit Card Number',[validators.Length(min=1, max= 60), validators.DataRequired(), credit_digit, contains_only_digits])
     expiry = StringField('Expiry Date (MM/YYYY)',[validators.Length(min=7, max= 7), validators.DataRequired(), valid_expiry_date])
     cvv = StringField('CVV',[validators.Length(min=1, max= 60), validators.DataRequired(), cvv_digit, contains_only_digits])
+
+class RewardPoints(FlaskForm):
+    reward_point = IntegerField('Reward Points', [DataRequired()])
