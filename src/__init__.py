@@ -262,6 +262,7 @@ def admin_page():
             return render_template("forbidden.html")
     except:
         return render_template("forbidden.html")
+    
 @app.route('/deleteCustomer/<int:id>', methods=['POST'])
 def delete_customer(id):
     customers_dict = {}
