@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% block title %}Checkout{% endblock %}
+
+{% block content %}
+{% from "includes/_formhelper.html" import render_field %}
+<section class="checkout">
+    <ul class="checkout-bar">
+        <li class="checkout-steps">
+            <span class="progress-count-done">1</span>
+            <span class="progress-label">Shopping Cart</span>
+        </li>
+        <li class="checkout-steps">
+            <span class="progress-count-done">2</span>
+            <span class="progress-label">Personal Details</span>
+        </li>
+        <li class="checkout-steps">
+            <span class="progress-count-done">3</span>
+            <span class="progress-label">Payment Method</span>
+        </li>
+        <li class="checkout-steps current-item">
+            <span class="progress-count-yet">4</span>
+            <span class="progress-label">Confirmation</span>
+        </li>
+    </ul>
+</section>
+
+
+<!-- Information Table -->
+
+<div class="container-confirm">
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <table class="table table-borderless custom-table">
+                <thead>
+                    <tr>
+                        <p style="display: inline;">Your Information</p><a class='p1' href="/checkout">Edit</a>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users_list %}
+                    <tr>
+                        <td>{{ user.get_username() }}</td>
+                        <td>{{ user.get_email() }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Banking Table -->
+        <div class="col-6">
+            <table class="table table-borderless custom-table">
+                <thead>
+                    <tr>
+                        <p style="display: inline;">Banking Details</p><a class='p2' href="/checkout1">Edit</a>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in banking_list %}
+                    <tr>
+                        <td>{{ user.get_nameID() }}</td>
+                        <td>{{ user.get_credit() }}</td>
+                        <td>{{ user.get_expiry() }}</td>
+                        <td>{{ user.get_cvv() }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- User Table -->
+        <div class="col-6">
+            <table class="table table-borderless custom-table">
+                <thead>
+                    <tr>
+                        <p style="display: inline;">Billing Address</p><a class='p2' href="/checkout">Edit</a>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users_list %}
+                    <tr>
+                        <td>{{ user.get_username() }}</td>
+                        <td>{{ user.get_address() }}</td>
+                        <td>{{ user.get_code() }}</td>
+                        <td>{{ user.get_pnumber() }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- User Table -->
+        <div class="col-6">
+            <table class="table table-borderless custom-table">
+                <thead>
+                    <tr>
+                        <p style="display: inline;">Mailing Address</p><a class='p2' href="/checkout">Edit</a>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users_list %}
+                    <tr>
+                        <td>{{ user.get_username() }}</td>
+                        <td>{{ user.get_address() }}</td>
+                        <td>{{ user.get_code() }}</td>
+                        <td>{{ user.get_pnumber() }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+</div>
+
+<a href="/confirmation_page"><button>Confirm Purchase</button></a>
+
+{% endblock %}

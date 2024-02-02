@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_session import Session
-from forms import SignUpForm, SignInForm, CreateBuyerForm, CreditCardDetail
+from forms import SignUpForm, SignInForm, ContactForm, CreateBuyerForm, CreditCardDetail
 import shelve, customer
 from werkzeug.security import generate_password_hash
 from checkout import User, Banking
