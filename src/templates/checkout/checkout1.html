@@ -3,7 +3,7 @@
 
 {% block content %}
 {% from "includes/_formhelper.html" import render_field %}
-<section class="checkout checkout-main">
+<section class="checkout">
     <ul class="checkout-bar">
         <li class="checkout-steps">
             <span class="progress-count-done">1</span>
@@ -31,7 +31,7 @@
 
             <div class="inputform">
                 <span>Cards accepted: </span>
-                <img src="../static/card.jpg" alt="">
+                <img src="../static/icons/card.jpg" alt="">
             </div>
             <div class="form-checkout">
                 {{render_field(form.nameID, class="form-control")}}
