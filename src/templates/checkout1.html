@@ -3,7 +3,7 @@
 
 {% block content %}
 {% from "includes/_formhelper.html" import render_field %}
-<section class="checkout">
+<section class="checkout checkout-main">
     <ul class="checkout-bar">
         <li class="checkout-steps">
             <span class="progress-count-done">1</span>
@@ -24,7 +24,7 @@
     </ul>
 </section>
 
-<div class="container-checkout">
+<div class="container-checkout checkout-main">
     <form method="POST" action="">
         <div class="row">
             <h3 class="title">Payment Method</h3>
