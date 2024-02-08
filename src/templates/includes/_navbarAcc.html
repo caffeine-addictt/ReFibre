@@ -29,7 +29,11 @@
                         </div>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="/signin/userdetails"><i class="fas fa-sliders-h fa-fw"></i> Account</a></li>
+                        {% if session["user"] == "admin.refiber@gmail.com" %}
+                            <li><a class="dropdown-item" href="/signin/admin"><i class="fas fa-sliders-h fa-fw"></i>Panel</a></li>
+                        {% else %}
+                            <li><a class="dropdown-item" href="/signin/userdetails"><i class="fas fa-sliders-h fa-fw"></i> Account</a></li>
+                        {% endif %}
                         <li><a class="dropdown-item" href="#"><i class="fas fa-sliders-h fa-fw"></i> My Cart</a></li></li>
                         <li>
                             <hr class="dropdown-divider">
