@@ -229,8 +229,7 @@ def update_reward_points(id):
         customer = customers_dict.get(id)
         update_reward_form.reward_point.data = customer.get_reward_point()
 
-        return render_template('admin/reward_points.html', form=update_reward_form)
-
+        return render_template('admin_account/reward_points.html', form=update_reward_form)
 
     
 # Route to delete user
@@ -245,11 +244,12 @@ def delete_user(id):
     db['Customers'] = users_dict
     db.close()
 
-    return redirect(url_for('/debugdisplay_customers'))
+    return redirect(url_for('debug/display_customers'))
 
 @app.route('/signin/admin')
 def admin_page():
     try:
+        print(session["user"])
         if session["user"] == "admin.refiber@gmail.com":
             customers_dict = {}
             db = shelve.open('customer_db', 'r')
@@ -261,7 +261,7 @@ def admin_page():
                 user = customers_dict.get(key)
                 customers_list.append(user)
 
-            return render_template("admin/admin.html", count=len(customers_list), users_list=customers_list)
+            return render_template("admin_account/admin.html", count=len(customers_list), users_list=customers_list)
         else:
             return render_template("error_page/forbidden.html")
     except:
