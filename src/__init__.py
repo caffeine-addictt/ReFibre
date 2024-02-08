@@ -20,7 +20,7 @@ app.config["SESSION_PERMANENT"] = False
 # route for root path
 @app.route('/')
 def home():
-    return render_template('home.html')
+    return render_template('info_page/home.html')
 
 @app.route('/confirmation_page')
 def thank_you_for_purchase():
@@ -28,7 +28,7 @@ def thank_you_for_purchase():
     purchase_id = str(uuid.uuid4())[:15]
 
     # Render the thank you page with the purchase ID
-    return render_template('lastpage.html', purchase_id=purchase_id)
+    return render_template('checkout/lastpage.html', purchase_id=purchase_id)
 
 @app.route('/checkout', methods=['GET','POST'])
 def personal_detail():
@@ -48,7 +48,7 @@ def personal_detail():
 
         db.close()
         return redirect(url_for('banking_detail'))
-    return render_template('checkout.html', form=create_buyer_form)
+    return render_template('checkout/checkout.html', form=create_buyer_form)
 
 @app.route('/checkout1', methods=['GET','POST'])
 def banking_detail():
@@ -68,7 +68,7 @@ def banking_detail():
 
         db.close()
         return redirect(url_for('display_buyers'))
-    return render_template('checkout1.html', form=create_banking_details)
+    return render_template('checkout/checkout1.html', form=create_banking_details)
 
 @app.route('/confirm')
 def display_buyers():
@@ -92,7 +92,7 @@ def display_buyers():
         user = details_dict.get(key)
         details_list.append(user)
 
-    return render_template('confirm.html', count=len(buyers_list), users_list=buyers_list, banking_list=details_list)
+    return render_template('checkout/confirm.html', count=len(buyers_list), users_list=buyers_list, banking_list=details_list)
 
 
 
@@ -116,7 +116,7 @@ def signup():
             # if email address is already in use
             if user:
                 db.close()
-                return render_template('signUp_fail.html', form=sign_up)
+                return render_template('signin_signup/signUp_fail.html', form=sign_up)
             # if email address not in use
             if not user:
                 break
@@ -129,7 +129,7 @@ def signup():
         db.close()
 
         return redirect(url_for('signin'))
-    return render_template('signUp.html', form=sign_up)
+    return render_template('signin_signup/signUp.html', form=sign_up)
 
 # route for customers to log in
 @app.route('/signin',  methods=['GET', 'POST'])
@@ -148,11 +148,11 @@ def signin():
 
         if sign_in.account_authenticate(email, password):
             session["user"] = email
-            return render_template('home.html', form=sign_in)
+            return render_template('info_page/home.html', form=sign_in)
         else:
-            return render_template('signIn_fail.html', form=sign_in)
+            return render_template('signin_signup/signIn_fail.html', form=sign_in)
         
-    return render_template('signIn.html', form=sign_in)
+    return render_template('signin_signup/signIn.html', form=sign_in)
 
 # route for customer to sign out
 @app.route('/signout')
@@ -161,7 +161,7 @@ def signout():
         session["user"] = None
         return redirect("/")
     except:
-        return render_template("forbidden.html")
+        return render_template("error_page/forbidden.html")
 
 # route to display customers
 @app.route('/displayCustomers')
@@ -176,7 +176,7 @@ def display_customers():
         user = customers_dict.get(key)
         customers_list.append(user)
 
-    return render_template('displayCustomers.html', count=len(customers_list), users_list=customers_list)
+    return render_template('debug/displayCustomers.html', count=len(customers_list), users_list=customers_list)
 
 @app.route('/updateCustomer/<int:id>/', methods=['GET', 'POST'])
 def update_customer(id):
@@ -205,7 +205,7 @@ def update_customer(id):
         update_user_form.email.data = user.get_email()
         update_user_form.password.data = user.get_password()
 
-        return render_template('updateCustomer.html', form=update_user_form)
+        return render_template('debug/updateCustomer.html', form=update_user_form)
 
     
 @app.route('/reward_points/<int:id>/', methods=['GET', 'POST'])
@@ -229,7 +229,7 @@ def update_reward_points(id):
         customer = customers_dict.get(id)
         update_reward_form.reward_point.data = customer.get_reward_point()
 
-        return render_template('reward_points.html', form=update_reward_form)
+        return render_template('admin/reward_points.html', form=update_reward_form)
 
 
     
@@ -245,7 +245,7 @@ def delete_user(id):
     db['Customers'] = users_dict
     db.close()
 
-    return redirect(url_for('display_customers'))
+    return redirect(url_for('/debugdisplay_customers'))
 
 @app.route('/signin/admin')
 def admin_page():
@@ -261,11 +261,11 @@ def admin_page():
                 user = customers_dict.get(key)
                 customers_list.append(user)
 
-            return render_template("admin.html", count=len(customers_list), users_list=customers_list)
+            return render_template("admin/admin.html", count=len(customers_list), users_list=customers_list)
         else:
-            return render_template("forbidden.html")
+            return render_template("error_page/forbidden.html")
     except:
-        return render_template("forbidden.html")
+        return render_template("error_page/forbidden.html")
     
 @app.route('/deleteCustomer/<int:id>', methods=['POST'])
 def delete_customer(id):
@@ -288,7 +288,7 @@ def contact_us():
     contact_us = ContactForm(request.form)
     if request.method == 'POST' and contact_us.validate():
             return render_template('contactSubmission.html')
-    return render_template('contactUs.html', form=contact_us)
+    return render_template('info_page/contactUs.html', form=contact_us)
 
 # Route for user_details
 @app.route('/signin/userdetails')
@@ -309,7 +309,7 @@ def display_user_info():
             else:
                 continue
 
-    return render_template('user_details.html', users_list=user_info)
+    return render_template('user_account/user_details.html', users_list=user_info)
 
 
 # route to user update
@@ -347,7 +347,7 @@ def user_update(id):
         user_details_form.date_of_birth.data = user.get_date_of_birth()
 
 
-        return render_template('user_update.html', form= user_details_form)
+        return render_template('user_account/user_update.html', form= user_details_form)
     
 # route to user billing    
 @app.route('/signin/userbilling')  # Change the route here
@@ -367,7 +367,7 @@ def display_user_billing():
             if session["user"] == User.get_email():
                 user_info.append(User)
 
-    return render_template('user_billing.html', users_list=user_info)
+    return render_template('user_account/user_billing.html', users_list=user_info)
 
 # route to payment method
 @app.route('/signin/add_payment_method', methods=['GET', 'POST'])
@@ -409,7 +409,7 @@ def add_payment_method():
         flash('Payment method added successfully', 'success')
         return redirect(url_for('display_user_billing'))
 
-    return render_template('add_payment_method.html', user_info=user_info, form=form)
+    return render_template('user_account/add_payment_method.html', user_info=user_info, form=form)
 
 
 # route to edit credit card details
@@ -450,13 +450,13 @@ def edit_credit_card():
         flash('Credit card details updated successfully', 'success')
         return redirect(url_for('display_user_billing'))
 
-    return render_template('edit_credit_card.html', user_info=user_info)
+    return render_template('user_account/edit_credit_card.html', user_info=user_info)
 
 
 # route to display user security
 @app.route('/signin/usersecurity')
 def display_user_security():
-    return render_template('user_security.html')
+    return render_template('user_account/user_security.html')
 
 
 # route for changing the password
