@@ -30,71 +30,81 @@ def thank_you_for_purchase():
     # Render the thank you page with the purchase ID
     return render_template('checkout/lastpage.html', purchase_id=purchase_id)
 
-@app.route('/checkout', methods=['GET','POST'])
-def personal_detail():
-    create_buyer_form = CreateBuyerForm(request.form)
-    if request.method == 'POST' and create_buyer_form.validate():
-        buyers_dict = {}
-        db = shelve.open('buyers_db')
-
-        try:
-            buyers_dict = db['Buyers','w']
-        except:
-            print("Error in retrieving Buyers from buyers_db.")
-
-        user = User(create_buyer_form.username.data, create_buyer_form.address.data, create_buyer_form.code.data, create_buyer_form.pnumber.data, create_buyer_form.email.data)
-        buyers_dict[user.get_username()] = user
-        db['Buyers'] = buyers_dict
-
+@app.route('/checkout/<int:id>/', methods=['GET','POST'])
+def personal_detail(id):
+    checkout_personalinfo_form = CreateBuyerForm(request.form)
+    if request.method == 'POST' and checkout_personalinfo_form.validate():
+        db = shelve.open('customer_db', 'w')
+        customers_dict = db['Customers']
+        user = customers_dict.get(id)
+        user_id = user.get_customer_id()
+        user.set_first_name(checkout_personalinfo_form.username.data)
+        user.set_address(checkout_personalinfo_form.address.data)
+        user.set_postal_code(checkout_personalinfo_form.code.data)
+        user.set_pnumber(checkout_personalinfo_form.pnumber.data)
+        user.set_email(checkout_personalinfo_form.email.data)
+        db['Customers'] =  customers_dict
         db.close()
-        return redirect(url_for('banking_detail'))
-    return render_template('checkout/checkout.html', form=create_buyer_form)
 
-@app.route('/checkout1', methods=['GET','POST'])
-def banking_detail():
-    create_banking_details = CreditCardDetail(request.form)
-    if request.method == 'POST' and create_banking_details.validate():
-        details_dict = {}
-        db = shelve.open('details_db')
 
-        try:
-            details_dict = db['Details','w']
-        except:
-            print("Error in retrieving Details from details_db.")
+        return redirect(url_for('banking_detail', id=user_id))
+    else:
+        customers_dict = {}
+        db = shelve.open('customer_db', 'r')
+        customers_dict = db['Customers']
+        db.close()
+
+        user = customers_dict.get(id)
+        checkout_personalinfo_form.username.data = user.get_first_name()
+        checkout_personalinfo_form.address.data = user.get_address()
+        checkout_personalinfo_form.code.data = user.get_postal_code()
+        checkout_personalinfo_form.pnumber.data = user.get_pnumber()
+        checkout_personalinfo_form.email.data = user.get_email()
+
+        return render_template('checkout/checkout.html', form=checkout_personalinfo_form)
+
+@app.route('/checkout1/<int:id>/', methods=['GET','POST'])
+def banking_detail(id):
+    banking_details_form = CreditCardDetail(request.form)
+    if request.method == 'POST' and banking_details_form.validate():
+        db = shelve.open('customer_db', 'w')
+        customers_dict = db['Customers']
+        user = customers_dict.get(id)
+        user_id = user.get_customer_id()
+        user.set_card_name(banking_details_form.nameID.data)
+        user.set_card_number(banking_details_form.credit.data)
+        user.set_expiration_date(banking_details_form.expiry.data)
+        user.set_cvv(banking_details_form.cvv.data)
+        db['Customers'] =  customers_dict
+        db.close()
+
+        return redirect(url_for('display_buyers', id=user_id))
+    else:
+        customers_dict = {}
+        db = shelve.open('customer_db', 'r')
+        customers_dict = db['Customers']
+        db.close()
+        
+        user = customers_dict.get(id)
+        banking_details_form.nameID.data = user.get_card_name()
+        banking_details_form.credit.data = user.get_card_number()
+        banking_details_form.expiry.data = user.get_expiration_date()
+        banking_details_form.cvv.data = user.get_cvv()
+
+        return render_template('checkout/checkout_banking.html', form=banking_details_form)
+
+@app.route('/confirm/<int:id>/')
+def display_buyers(id):
+    users_dict = {}
+    db = shelve.open('customer_db', 'r')
+    users_dict = db["Customers"]
     
-        user = Banking(create_banking_details.nameID.data, create_banking_details.credit.data, create_banking_details.expiry.data, create_banking_details.cvv.data)
-        details_dict[user.get_nameID()] = user
-        db['Details'] = details_dict
+    users_list = []
+    for key in users_dict:
+        user = users_dict.get(key)
+        users_list.append(user)
 
-        db.close()
-        return redirect(url_for('display_buyers'))
-    return render_template('checkout/checkout1.html', form=create_banking_details)
-
-@app.route('/confirm')
-def display_buyers():
-    buyers_dict = {}
-    db = shelve.open('buyers_db', 'r')
-    buyers_dict = db['Buyers']
-    db.close()
-
-    buyers_list = []
-    for key in buyers_dict:
-        user = buyers_dict.get(key)
-        buyers_list.append(user)
-
-    details_dict = {}
-    db = shelve.open('details_db', 'r')
-    details_dict = db['Details']
-    db.close()
-
-    details_list = []
-    for key in details_dict:
-        user = details_dict.get(key)
-        details_list.append(user)
-
-    return render_template('checkout/confirm.html', count=len(buyers_list), users_list=buyers_list, banking_list=details_list)
-
-
+    return render_template('checkout/confirm.html', users_list=users_list)
 
 # route for sign up page
 @app.route('/signup', methods=['GET', 'POST'])
@@ -244,7 +254,7 @@ def delete_user(id):
     db['Customers'] = users_dict
     db.close()
 
-    return redirect(url_for('debug/display_customers'))
+    return redirect(url_for('display_customers'))
 
 @app.route('/signin/admin')
 def admin_page():

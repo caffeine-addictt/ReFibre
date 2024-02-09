@@ -33,13 +33,13 @@
             <table class="table table-borderless custom-table">
                 <thead>
                     <tr>
-                        <p style="display: inline;">Your Information</p><a class='p1' href="/checkout">Edit</a>
+                        <p style="display: inline;">Contact Information</p><a class='p1' href="/checkout">Edit</a>
                     </tr>
                 </thead>
                 <tbody>
                     {% for user in users_list %}
                     <tr>
-                        <td>{{ user.get_username() }}</td>
+                        <td>{{ user.get_first_name() }}</td>
                         <td>{{ user.get_email() }}</td>
                     </tr>
                     {% endfor %}
@@ -52,15 +52,15 @@
             <table class="table table-borderless custom-table">
                 <thead>
                     <tr>
-                        <p class="p-confirm" style="display: inline;">Banking Details</p><a class='p2' href="/checkout1">Edit</a>
+                        <p class="p-confirm" style="display: inline;">Payment Details</p><a class='p2' href="/checkout1">Edit</a>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for user in banking_list %}
+                    {% for user in users_list %}
                     <tr>
-                        <td>{{ user.get_nameID() }}</td>
-                        <td>{{ user.get_credit() }}</td>
-                        <td>{{ user.get_expiry() }}</td>
+                        <td>{{ user.get_card_name() }}</td>
+                        <td>{{ user.get_card_number() }}</td>
+                        <td>{{ user.get_expiration_date() }}</td>
                         <td>{{ user.get_cvv() }}</td>
                     </tr>
                     {% endfor %}
@@ -79,9 +79,9 @@
                 <tbody>
                     {% for user in users_list %}
                     <tr>
-                        <td>{{ user.get_username() }}</td>
+                        <td>{{ user.get_first_name() }}</td>
                         <td>{{ user.get_address() }}</td>
-                        <td>{{ user.get_code() }}</td>
+                        <td>{{ user.get_postal_code() }}</td>
                         <td>{{ user.get_pnumber() }}</td>
                     </tr>
                     {% endfor %}
@@ -94,15 +94,15 @@
             <table class="table table-borderless custom-table">
                 <thead>
                     <tr>
-                        <p class="p-confirm" style="display: inline;">Mailing Address</p><a class='p2' href="/checkout">Edit</a>
+                        <p class="p-confirm" style="display: inline;">Shipping Address</p><a class='p2' href="/checkout">Edit</a>
                     </tr>
                 </thead>
                 <tbody>
                     {% for user in users_list %}
                     <tr>
-                        <td>{{ user.get_username() }}</td>
+                        <td>{{ user.get_first_name() }}</td>
                         <td>{{ user.get_address() }}</td>
-                        <td>{{ user.get_code() }}</td>
+                        <td>{{ user.get_postal_code() }}</td>
                         <td>{{ user.get_pnumber() }}</td>
                     </tr>
                     {% endfor %}
