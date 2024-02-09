@@ -8,6 +8,7 @@ from checkout import User, Banking
 import uuid
 from flask_wtf.csrf import CSRFProtect
 from flask import flash
+from cart import ShoppingCart
 
 
 # Configure app
@@ -16,17 +17,14 @@ app = Flask(__name__)
 # Configure session
 app.secret_key = 'hello'
 app.config["SESSION_PERMANENT"] = False
+products = []
+cart = {}
 
 # route for root path
 @app.route('/')
 def home():
     return render_template('info_page/home.html')
 
-from cart import ShoppingCart
-
-
-products = []
-cart = {}
 
 
 @app.route('/shop')
