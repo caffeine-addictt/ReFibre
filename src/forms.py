@@ -87,7 +87,7 @@ def credit_digit(form, field):
 def cvv_digit(form, field):
     cvv = field.data
 
-    if len(cvv) < 4:
+    if len(cvv) > 4 or len(cvv) < 3:
         raise validators.ValidationError('Invalid CVV Number. Must be 3- or 4- digits')
     
 def valid_expiry_date(form, field):
@@ -125,10 +125,10 @@ class Customer_details_form(FlaskForm):
     button = SubmitField(label='Update')
 
 class CreditCardForm(FlaskForm):
-    card_number = StringField('Card Number', [validators.Length(min=16, max=16), validators.DataRequired()])
-    expiration_date = DateField('Expiration Date (YYYY-MM)', format='%Y-%m', validators=[validators.DataRequired()])
-    cvv = IntegerField('CVV', [validators.NumberRange(min=100, max=999), validators.DataRequired(), validators.Length(min=3, max=3)])
     name = StringField('Name', [validators.Length(min=1, max=150), validators.DataRequired()])
+    card_number = StringField('Card Number', [validators.Length(min=16, max=16), validators.DataRequired()])
+    expiration_date = StringField('Expiry Date (MM/YYYY)',[validators.Length(min=7, max= 7), validators.DataRequired(), valid_expiry_date])
+    cvv = IntegerField('CVV', [validators.NumberRange(min=100, max=999), validators.DataRequired()])
     save_changes = SubmitField('Save Changes')
 
 

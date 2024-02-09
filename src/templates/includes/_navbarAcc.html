@@ -14,7 +14,7 @@
                     <a class="nav-link" href="/">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Shop</a>
+                    <a class="nav-link" href="/shop">Shop</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/contactUs">Contact Us</a>
@@ -30,9 +30,9 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         {% if session["user"] == "admin.refiber@gmail.com" %}
-                            <li><a class="dropdown-item" href="/signin/admin"><i class="fas fa-sliders-h fa-fw"></i>Panel</a></li>
+                            <li><a class="dropdown-item" href="/admin"><i class="fas fa-sliders-h fa-fw"></i>Panel</a></li>
                         {% else %}
-                            <li><a class="dropdown-item" href="/signin/userdetails"><i class="fas fa-sliders-h fa-fw"></i> Account</a></li>
+                            <li><a class="dropdown-item" href="/userdetails"><i class="fas fa-sliders-h fa-fw"></i> Account</a></li>
                         {% endif %}
                         <li><a class="dropdown-item" href="#"><i class="fas fa-sliders-h fa-fw"></i> My Cart</a></li></li>
                         <li>
