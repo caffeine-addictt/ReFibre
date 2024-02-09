@@ -87,7 +87,7 @@ def credit_digit(form, field):
 def cvv_digit(form, field):
     cvv = field.data
 
-    if len(cvv) < 4:
+    if len(cvv) > 4 or len(cvv) < 3:
         raise validators.ValidationError('Invalid CVV Number. Must be 3- or 4- digits')
     
 def valid_expiry_date(form, field):
