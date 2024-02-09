@@ -8,6 +8,7 @@ from checkout import User, Banking
 import uuid
 from flask_wtf.csrf import CSRFProtect
 from flask import flash
+from cart import ShoppingCart
 
 
 # Configure app
@@ -16,11 +17,60 @@ app = Flask(__name__)
 # Configure session
 app.secret_key = 'hello'
 app.config["SESSION_PERMANENT"] = False
+products = []
+cart = {}
 
 # route for root path
 @app.route('/')
 def home():
     return render_template('info_page/home.html')
+
+
+
+@app.route('/shop')
+def display_items():
+    return render_template('shop/shop.html')
+
+@app.route('/cart', methods=['GET', 'POST'])
+def view_cart():
+    global cart
+    if request.method == 'POST':
+        id: int = int(request.form.get('id'))
+        name = request.form.get('product-name')
+        price = float(request.form.get('price'))
+        cart[id] = {
+            'product_name': name,
+            'product_price': price
+        }
+
+        return redirect(url_for('view_cart'))
+
+    total_price = sum(product_info['product_price'] for product_info in cart.values()) if cart else 0.0
+    return render_template('shop/cart.html', cart=cart, total_price=total_price)
+    
+@app.route('/add_to_cart/<int:product_id>')
+def add_to_cart(product_id):
+    global cart
+    product = next((p for p in products if p['id'] == product_id), None)
+    if product:
+        cart = session.get('cart', [])
+        cart.append(product)
+        session['cart'] = cart
+    return redirect(url_for('shop'))
+
+@app.route('/remove_from_cart')
+def remove_from_cart():
+    try:
+        id = int(request.args.get("id"))
+    except ValueError:
+        return "INVALID_ID_SUPPLIED", 400
+
+    if id in cart:
+        del cart[id]
+
+    return redirect(url_for("view_cart"))
+
+
 
 @app.route('/confirmation_page')
 def thank_you_for_purchase():
