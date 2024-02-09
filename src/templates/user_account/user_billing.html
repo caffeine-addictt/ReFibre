@@ -9,63 +9,44 @@
 <div class="container-xl px-4 mt-4">
     <!-- Account page navigation-->
     <nav class="nav nav-borders">
-        <a class="nav-link active ms-0" href="/signin/userdetails" target="__blank">Profile</a>
-        <a class="nav-link" href="/signin/userbilling" target="__blank">Billing</a>
-        <a class="nav-link" href="/signin/usersecurity" target="__blank">Security</a>
+        <a class="nav-link active ms-0" href="/userdetails">Profile</a>
+        <a class="nav-link" href="/userbilling" >Billing</a>
+        <a class="nav-link" href="/usersecurity">Security</a>
     </nav>
     <hr class="mt-0 mb-4">
     <!-- Payment methods card-->
     <div class="card card-header-actions mb-4">
         <div class="card-header">
-            Payment Methods
-            <a href="{{ url_for('add_payment_method') }}"><button class="btn btn-primary" type="button">Add Payment
-                    Method</button></a>
+            Payment Details
         </div>
         <div class="card-body px-0">
-            <!-- Payment method 1-->
-            <div class="d-flex align-items-center justify-content-between px-4">
-                <div class="d-flex align-items-center">
-                    <i class="fab fa-cc-visa fa-2x cc-color-visa"></i>
-                    <div class="ms-4">
-                        <div class="small">Visa ending in 1234</div>
-                        <div class="text-xs text-muted">Expires 04/2024</div>
-                    </div>
-                </div>
-                <div class="ms-4 small">
-                    <div class="badge bg-light text-dark me-3">Default</div>
-                    <a href="#!">Edit</a>
+            <!-- Payment method-->
+            {% for user in users_list %}
+            <div class="row gx-3 mb-3">
+                <!-- Form Group (Name on Card)-->
+                <div class="col-md-12">
+                    <label class="small mb-1" for="">Name on Card:</label>
+                    {{ user.get_first_name() ~ ' ' ~ user.get_last_name() }}
                 </div>
             </div>
-            <hr>
-            <!-- Payment method 2-->
-            <div class="d-flex align-items-center justify-content-between px-4">
-                <div class="d-flex align-items-center">
-                    <i class="fab fa-cc-mastercard fa-2x cc-color-mastercard"></i>
-                    <div class="ms-4">
-                        <div class="small">Mastercard ending in 5678</div>
-                        <div class="text-xs text-muted">Expires 05/2022</div>
-                    </div>
-                </div>
-                <div class="ms-4 small">
-                    <a class="text-muted me-3" href="#!">Make Default</a>
-                    <a href="#!">Edit</a>
-                </div>
+        </div>
+        <div class="row gx-3 mb-3">
+            <!-- Form Group (Gender)-->
+            <div class="col-md-12">
+                <label class="small mb-1" for="">Card Number:</label>
+                {{ user.get_card_number() }}
             </div>
-            <hr>
-            <!-- Payment method 3-->
-            <div class="d-flex align-items-center justify-content-between px-4">
-                <div class="d-flex align-items-center">
-                    <i class="fab fa-cc-amex fa-2x cc-color-amex"></i>
-                    <div class="ms-4">
-                        <div class="small">American Express ending in 9012</div>
-                        <div class="text-xs text-muted">Expires 01/2026</div>
-                    </div>
-                </div>
-                <div class="ms-4 small">
-                    <a class="text-muted me-3" href="#!">Make Default</a>
-                    <a href="#!">Edit</a>
-                </div>
+            <div class="col-md-12">
+                <label class="small mb-1" for="inputDate">Expiry:</label>
+                {{ user.get_expiration_date() }}
             </div>
+            <div class="col-md-12">
+                <label class="small mb-1" for="">CVV:</label>
+                {{ user.get_cvv() }}
+            </div>
+            <a href="/edit_payment_method/{{user.get_customer_id()}}"><button class="btn btn-primary" type="button">Edit Payment
+                Method</button></a>
+            {% endfor %}
         </div>
     </div>
     <!-- Billing history card-->

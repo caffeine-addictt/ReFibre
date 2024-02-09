@@ -1,72 +1,24 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block title %}Edit Credit Card{% endblock %}
 
 {% block content %}
-<!-- Include Bootstrap CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-
-<div class="container-fluid">
-    <div class="row justify-content-center">
-        <div class="col-lg-6 col-md-8">
-            <div class="card p-3">
-                <div class="row justify-content-center">
-                    <div class="col-12">
-                        <h2 class="heading text-center">BBBootstrap</h2>
-                    </div>
-                </div>
-
-                <!-- Replace the existing form with the new code -->
-                <form action="{{ url_for('add_payment_method') }}" method="post" class="form-card">
-                    <!-- Name Input Field -->
-                    <div class="row justify-content-center">
-                        <div class="col-12">
-                            <div class="input-group">
-                                {{ form.name.label }}
-                                {{ form.name }}
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card Number Input Field -->
-                    <div class="row justify-content-center">
-                        <div class="col-12">
-                            <div class="input-group">
-                                {{ form.card_number.label }}
-                                {{ form.card_number }}
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Expiry Date and CVV Input Fields -->
-                    <div class="row justify-content-center">
-                        <div class="col-6">
-                            <div class="input-group">
-                                {{ form.expiration_date.label }}
-                                {{ form.expiration_date }}
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="input-group">
-                                {{ form.cvv.label }}
-                                {{ form.cvv }}
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Add a submit button -->
-                    <div class="row justify-content-center">
-                        <div class="col-md-12">
-                            {{ form.save_changes(class="btn btn-primary") }}
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
+{% from "includes/_formHelper.html" import render_field %}
+<form method="POST" action="">
+    <div class="form-group">
+        {{ render_field(form.name, class="form-control") }}
     </div>
-</div>
-
-<!-- Include Bootstrap JS (both Popper and Bootstrap) and jQuery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
-
+    <div class="form-group">
+        {{ render_field(form.card_number, class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ render_field(form.expiration_date, class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ render_field(form.cvv, class="form-control") }}
+    </div>
+    <div class="d-flex justify-content-center mt-4">
+        {{ form.save_changes(class="btn btn-light btn-outline-dark btn-lg")}}
+    </div>
+</form>
 {% endblock %}
