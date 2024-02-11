@@ -1,13 +1,9 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_session import Session
 from forms import SignUpForm, SignInForm, ContactForm, CreateBuyerForm, CreditCardDetail, RewardPoints, Customer_details_form, CreditCardForm
-import shelve, customer
-from customer import Customer
+import shelve, customer, uuid
 from werkzeug.security import generate_password_hash, check_password_hash
-from checkout import User, Banking
-import uuid
 from flask_wtf.csrf import CSRFProtect
-from flask import flash
 from cart import ShoppingCart
 
 
@@ -38,31 +34,23 @@ def contact_us():
 def signup():
     sign_up = SignUpForm(request.form)
     if request.method == 'POST' and sign_up.validate():
-        customers_dict = {}
-        db = shelve.open('customer_db')
+        db = shelve.open('customer_db', 'c')
+        db["Customers"] = db.get("Customers", {})
+        db["last_id"] = db.get('last_id', 0)
         email = request.form['email']
 
-        try:
-            customers_dict = db['Customers']
-        except:
-            print("Error in retrieving Customers from customer_db.")
-
         # validate if user account already exits
-        for users in customers_dict:
-            user = SignUpForm.account_validate(email)
-            # if email address is already in use
-            if user:
-                db.close()
-                return render_template('signin_signup/signUp_fail.html', form=sign_up)
-            # if email address not in use
-            if not user:
-                break
+        if SignUpForm.account_validate(email):
+            db.close()
+            return render_template('signin_signup/signUp_fail.html', form=sign_up)
 
         hashed_password = generate_password_hash(sign_up.password.data)
-        user = customer.Customer(sign_up.first_name.data, sign_up.last_name.data, sign_up.email.data, hashed_password)
-        customers_dict[user.get_customer_id()] = user
-        db['Customers'] = customers_dict
-
+        db['last_id'] += 1
+        user = customer.Customer(db['last_id'], sign_up.first_name.data, sign_up.last_name.data, sign_up.email.data, hashed_password)
+        db['Customers'] = {
+            **db['Customers'], 
+            user.customer_id: user
+        }
         db.close()
 
         return redirect(url_for('signin'))
