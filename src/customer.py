@@ -2,76 +2,76 @@ from users import User
 import shelve
 
 class Customer(User):
-    def __init__(self, firstname, lastname, email, password):
-        self.__customer_id = self.generate_cust_id()
+    def __init__(self, customer_id, firstname, lastname, email, password):
+        self.customer_id = customer_id
         super().__init__(email, password)
-        self.__firstname = firstname
-        self.__lastname = lastname
-        self.__gender = None
-        self.__postal_code = None
-        self.__address = None
-        self.__date_of_birth = None
-        self.__reward_point = None
-        self.__card_number = None
-        self.__expiration_date = None
-        self.__cvv  = None
-
-    # Function for generating user ID with persistant storage
-    @staticmethod
-    def generate_cust_id():
-        user_db = shelve.open('user.db', 'c')  # Open or create a shelf file
-        last_id = user_db.get('last_id', 0)  # Retrieve last assigned user_id or initialize to 0
-        new_id = last_id + 1  # Increment user_id
-        user_db['last_id'] = new_id  # Update the last_id in the shelf
-        user_db.close()
-        return new_id
+        self.firstname = firstname
+        self.lastname = lastname
+        self.pnumber = None
+        self.gender = None
+        self.postal_code = None
+        self.address = None
+        self.date_of_birth = None
+        self.reward_point = None
+        self.card_name = None
+        self.card_number = None
+        self.expiration_date = None
+        self.cvv = None
     
     # Accessor method
     def get_customer_id(self):
-        return self.__customer_id
+        return self.customer_id
     def get_first_name(self):
-        return self.__firstname
+        return self.firstname
     def get_last_name(self):
-        return self.__lastname
+        return self.lastname
+    def get_pnumber(self):
+        return self.pnumber
     def get_gender(self):
-        return self.__gender
+        return self.gender
     def get_postal_code(self):
-        return self.__postal_code
+        return self.postal_code
     def get_address(self):
-        return self.__address
+        return self.address
     def get_date_of_birth(self):
-        return self.__date_of_birth
+        return self.date_of_birth
     def get_reward_point(self):
-        return self.__reward_point
+        return self.reward_point
+    def get_card_name(self):
+        return self.card_name
     def get_card_number(self):
-        return self.__card_number
+        return self.card_number
     def get_expiration_date(self):
-        return self.__expiration_date
+        return self.expiration_date
     def get_cvv(self):
-        return self.__cvv
+        return self.cvv
     
     
     
     # Mutator methods
     def set_customer_id(self, customer_id):
-        self.__customer_id = customer_id
+        self.customer_id = customer_id
     def set_first_name(self, firstname):
-        self.__firstname = firstname
+        self.firstname = firstname
     def set_last_name(self, lastname):
-        self.__lastname = lastname
+        self.lastname = lastname
+    def set_pnumber(self, pnumber):
+        self.pnumber = pnumber
     def set_gender(self, gender):
-        self.__gender = gender
+        self.gender = gender
     def set_postal_code(self, postal_code):
-        self.__postal_code = postal_code
+        self.postal_code = postal_code
     def set_address(self, address):
-        self.__address = address
+        self.address = address
     def set_date_of_birth(self, date_of_birth):
-        self.__date_of_birth = date_of_birth
+        self.date_of_birth = date_of_birth
     def set_reward_point(self, reward_point):
-        self.__reward_point = reward_point
+        self.reward_point = reward_point
+    def set_card_name(self, card_name):
+        self.card_name = card_name
     def set_card_number(self, card_number):
-        self.__card_number = card_number
+        self.card_number = card_number
     def set_expiration_date(self, expiration_date):
-        self.__card_number = expiration_date
+        self.expiration_date = expiration_date
     def set_cvv(self, cvv):
-        self.__card_number = cvv
+        self.cvv = cvv
