@@ -26,7 +26,6 @@ def home():
     return render_template('info_page/home.html')
 
 
-#
 @app.route('/shop')
 def display_items():
     return render_template('shop/men.html')
@@ -51,16 +50,18 @@ def view_cart():
         id: int = int(request.form.get('id'))
         name = request.form.get('product-name')
         price = float(request.form.get('price'))
+        image_url = request.form.get('image_url')
         cart[id] = {
             'product_name': name,
-            'product_price': price
+            'product_price': price,
+            'image_url': image_url
         }
-
         return redirect(url_for('view_cart'))
 
     total_price = sum(product_info['product_price'] for product_info in cart.values()) if cart else 0.0
     return render_template('shop/cart.html', cart=cart, total_price=total_price)
-    
+
+
 @app.route('/add_to_cart/<int:product_id>')
 def add_to_cart(product_id):
     global cart
@@ -70,6 +71,7 @@ def add_to_cart(product_id):
         cart.append(product)
         session['cart'] = cart
     return redirect(url_for('shop'))
+
 
 @app.route('/remove_from_cart')
 def remove_from_cart():
@@ -82,7 +84,6 @@ def remove_from_cart():
         del cart[id]
 
     return redirect(url_for("view_cart"))
-#
 
 
 
