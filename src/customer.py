@@ -2,8 +2,8 @@ from users import User
 import shelve
 
 class Customer(User):
-    def __init__(self, firstname, lastname, email, password):
-        self.customer_id = self.generate_cust_id()
+    def __init__(self, customer_id, firstname, lastname, email, password):
+        self.customer_id = customer_id
         super().__init__(email, password)
         self.firstname = firstname
         self.lastname = lastname
@@ -17,22 +17,6 @@ class Customer(User):
         self.card_number = None
         self.expiration_date = None
         self.cvv = None
-
-    # Function for generating user ID with persistant storage
-    @staticmethod
-    def generate_cust_id():
-        users_id = {}
-        db = shelve.open('customer_db')  # Open or create a shelf file
-        try: 
-            users_id = db["UserID"]
-        except:
-            print("Error in retrieving UserID from customer_db.")
-        last_id = users_id.get('last_id', 0)  # Retrieve last assigned user_id or initialize to 0
-        new_id = last_id + 1  # Increment user_id
-        users_id['last_id'] = new_id  # Update the last_id in the shelf
-        db['UserID'] = users_id
-        db.close()
-        return new_id
     
     # Accessor method
     def get_customer_id(self):
