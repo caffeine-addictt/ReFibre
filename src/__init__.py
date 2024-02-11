@@ -26,10 +26,23 @@ def home():
     return render_template('info_page/home.html')
 
 
-
+#
 @app.route('/shop')
 def display_items():
-    return render_template('shop/shop.html')
+    return render_template('shop/men.html')
+
+@app.route('/shop/women')
+def display_women_items():
+    return render_template('shop/women.html')
+
+@app.route('/shop/new-arrivals')
+def display_new_arrivals():
+    return render_template('shop/newArrivals.html')
+
+@app.route('/shop/men')
+def display_men_items():
+    return render_template('shop/men.html')
+
 
 @app.route('/cart', methods=['GET', 'POST'])
 def view_cart():
@@ -69,6 +82,7 @@ def remove_from_cart():
         del cart[id]
 
     return redirect(url_for("view_cart"))
+#
 
 
 

@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}Refiber-shop{% endblock %}
+
+ 
+{% block content %}
+
+
+<div class="buttons-container">
+    <a href="/shop/men"><button class="oval-button men">men</button></a>
+    <button class="oval-button women"  style="background-color: orange;">Women</button>
+    <a href="/shop/new-arrivals"><button class="oval-button new-arrivals">New arrivals</button></a>
+</div>
+
+
+
+
+<section class="shop-page">
+    <form action="/cart"  method="post">
+        <div class="grid-item pants">
+            <input name="id" type="hidden" value="1">
+            <input name="product-name" type="hidden" value="refiber-pants">
+            <input name="price" type="hidden" value="10.00">
+            <img src="../../static/refiber_clothes/women-clothing-1.png" alt="pants" class="grid-image">
+            <h2>refiber-pants</h2>
+            <p>$10.00</p>
+            <button class="add-to-cart-btn">Add to Cart</button>
+        </div>
+    </form>
+    <form action="/cart"  method="post">
+        <div class="grid-item jacket">
+            <input name="id" type="hidden" value="2">
+            <input name="product-name" type="hidden" value="refiber-jacket">
+            <input name="price" type="hidden" value="19.99">
+            <img src="../../static/refiber_clothes/women-clothing-2.png" alt="jacket">
+            <h2>refiber-jacket</h2>
+            <p>$19.99</p>
+            <button class="add-to-cart-btn" data-item-id="2">Add to Cart</button>
+        </div>
+    </form>
+    <form action="/cart" method="post">
+        <div  class="grid-item shirt">
+            <input name="id" type="hidden" value="3">
+            <input name="product-name" type="hidden" value="refiber-shirt">
+            <input name="price" type="hidden" value="9.99">
+            <img src="../../static/refiber_clothes/women-clothing-3.png" alt="shirt">
+            <h2>refiber-shirt</h2>
+            <p>$9.99</p>
+            <button class="add-to-cart-btn" data-item-id="3">Add to Cart</button>
+        </div>
+    </form>
+
+    <form action="/cart" method="post">
+        <div class="grid-item shorts">
+            <input name="id" type="hidden" value="4">
+            <input name="product-name" type="hidden" value="refiber-shorts">
+            <input name="price" type="hidden" value="9.99">
+            <img src="../../static/refiber_clothes/women-clothing-4.png" alt="shorts">
+            <h2>refiber-shorts</h2>
+            <p>$9.99</p>
+            <button class="add-to-cart-btn" data-item-id="4">Add to Cart</button>
+        </div>
+    </form>
+
+    <!-- Add more product entries as needed -->
+</section>
+
+{% block footer %}
+    <footer class="shop-footer">
+        <p>@2024 My Website. All rights reserved.</p>
+    </footer>
+{% endblock %}
+
+
+{% endblock %}
