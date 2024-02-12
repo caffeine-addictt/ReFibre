@@ -42,29 +42,31 @@
                                     </div>
                                 </div>
                                 {% for id, product in cart.items() %}
-                                    <div class="card mb-3">
-                                        <div class="card-body">
-                                            <div class="d-flex justify-content-between">
-                                                <div class="d-flex flex-row align-items-center">
-                                                    <div>
-                                                        <img src="{{ product.image_url }}"
-                                                            class="img-fluid rounded-3" alt="{{ product.product_name }}"
-                                                            style="width: 65px;">
-                                                    </div>
-                                                    <div class="ms-3">
-                                                        <h5>{{ product.product_name }}</h5>
-                                                    </div>
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between">
+                                            <div class="d-flex flex-row align-items-center">
+                                                <div>
+                                                    <img src="{{ product.image_url }}" class="img-fluid rounded-3"
+                                                        alt="{{ product.product_name }}" style="width: 65px;">
                                                 </div>
-                                                <div class="d-flex flex-row align-items-center">
-                                                    <div style="width: 80px;">
-                                                        <h5 class="mb-0">${{ "{:.2f}".format(product.product_price) }}</h5>
-                                                    </div>
-                                                    <a href="#!" style="color: #cecece;"><i
-                                                            class="fas fa-trash-alt"></i></a>
+                                                <div class="ms-3">
+                                                    <h5>{{ product.product_name }}</h5>
                                                 </div>
+                                            </div>
+                                            <div class="d-flex flex-row align-items-center">
+                                                <div style="width: 80px;">
+                                                    <h5 class="mb-0">${{ "{:.2f}".format(product.product_price) }}</h5>
+                                                </div>
+                                                <div style="width: 80px;">
+                                                    <a href="/remove_from_cart?id={{id}}">Remove</a></li>
+                                                </div>
+                                                <a href="#!" style="color: #cecece;"><i
+                                                        class="fas fa-trash-alt"></i></a>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
                                 {% endfor %}
 
                             </div>
@@ -92,14 +94,33 @@
                                             <p class="mb-2">Total(Incl. ship)</p>
                                             <p class="mb-2">${{ "{:.2f}".format(total_price + 10) }}</p>
                                         </div>
-                                        
+                                        {% if "user" not in session %}
+                                        <a href="/signup"><button type="button"
+                                                class="btn btn-info btn-block btn-lg disabled">
+                                                <div class="d-flex justify-content-between">
+                                                    <span>Proceed to Checkout<i
+                                                            class="fas fa-long-arrow-alt-right ms-2"></i></span>
+                                                </div>
+                                            </button></a>
+                                        {% elif session["user"] == "admin.refiber@gmail.com" %}
+                                        <a href="#"><button type="button"
+                                                class="btn btn-info btn-block btn-lg disabled">
+                                                <div class="d-flex justify-content-between">
+                                                    <span>Proceed to Checkout<i
+                                                            class="fas fa-long-arrow-alt-right ms-2"></i></span>
+                                                </div>
+                                            </button></a>
+                                        {% else %}
                                         {% for user in users_list %}
-                                        <a href="/checkout/{{ user.get_customer_id() }}"><button type="button" class="btn btn-info btn-block btn-lg">
-                                            <div class="d-flex justify-content-between">
-                                                <span>Proceed to Checkout<i class="fas fa-long-arrow-alt-right ms-2"></i></span>
-                                            </div>
-                                        </button></a>
+                                        <a href="/checkout/{{ user.get_customer_id() }}"><button type="button"
+                                                class="btn btn-info btn-block btn-lg">
+                                                <div class="d-flex justify-content-between">
+                                                    <span>Proceed to Checkout<i
+                                                            class="fas fa-long-arrow-alt-right ms-2"></i></span>
+                                                </div>
+                                            </button></a>
                                         {% endfor %}
+                                        {% endif %}
 
                                     </div>
                                 </div>

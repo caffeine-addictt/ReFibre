@@ -65,35 +65,25 @@
         <h5>Management of Sales</h5>
         <br>
         <div style="display: flex; flex-direction: row; justify-content: space-between" class="flex-container">
-            <p style="border: solid; width: 316px; height: 60px;">Number of customers for the past 6 months:</p>
-            <p style="border: solid; width: 316px; height: 60px;">Tops sold:</p>
-            <p style="border: solid; width: 316px; height: 60px;">Bottoms sold:</p>
+            <p style="border: solid; width: 316px; height: 60px;">Total No. of customers: {{ count }}</p>
+            <p style="border: solid; width: 316px; height: 60px;">Total No. of sales: {{ count_trans }}</p>
          </div>
-         <p style="border: solid; width: 316px; height: 60px;">Hoodies sold:</p>
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>ItemNo</th>
-                    <th>Name</th>
+                    <th>Transaction ID</th>
                     <th>Price</th>
-                    <th>Status</th>
                     <th>Revenue</th>
                 </tr>
             </thead>
             <tbody>
+                {% for trans in trans_list %}
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td><a href="#" class="btn btn-warning">Update</a></td>
-                    <td>
-                        <form action="" method="post">
-                            <input type="submit" value="Delete" class="btn btn-danger">
-                        </form>
-                    </td>
+                    <td>{{ trans.get_trans_id() }}</td>
+                    <td>${{ "{:.2f}".format(trans.get_item_price()) }}</td>
+                    <td>${{ "{:.2f}".format(trans.get_item_revenue()) }}</td>
                 </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
