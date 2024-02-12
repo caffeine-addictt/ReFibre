@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_session import Session
 from forms import SignUpForm, SignInForm, ContactForm, CreateBuyerForm, CreditCardDetail, RewardPoints, Customer_details_form, CreditCardForm, ChangePassword
-import shelve, customer, uuid
+import shelve, customer, uuid, transaction
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_wtf.csrf import CSRFProtect
 from cart import ShoppingCart
@@ -19,6 +19,11 @@ cart = {}
 # route for root path
 @app.route('/')
 def home():
+    try:
+        if session["user"] == "admin.refiber@gmail.com":
+            pass
+    except:
+        session["user"] == None
     return render_template('info_page/home.html')
 
 # Route for contact us page
@@ -93,19 +98,24 @@ def signout():
 @app.route('/admin')
 def admin_page():
     try:
-        print(session["user"])
         if session["user"] == "admin.refiber@gmail.com":
             customers_dict = {}
             db = shelve.open('customer_db', 'r')
             customers_dict = db['Customers']
+            transactions_dict = db['Transactions']
             db.close()
 
             customers_list = []
             for key in customers_dict:
                 user = customers_dict.get(key)
                 customers_list.append(user)
+            
+            transactions_list = []
+            for key in transactions_dict:
+                trans = transactions_dict.get(key)
+                transactions_list.append(trans)
 
-            return render_template("admin_account/admin.html", count=len(customers_list), users_list=customers_list)
+            return render_template("admin_account/admin.html", count=len(customers_list), count_trans=len(transactions_list), users_list=customers_list, trans_list=transactions_list)
         else:
             return render_template("error_page/forbidden.html")
     except:
@@ -184,7 +194,7 @@ def view_cart():
             'product_price': price,
             'image_url': image_url
         }
-        return redirect(url_for('view_cart'))
+        return redirect(url_for('checkout_details'))
 
     total_price = sum(product_info['product_price'] for product_info in cart.values()) if cart else 0.0
     return render_template('shop/cart.html', cart=cart, total_price=total_price)
@@ -211,7 +221,7 @@ def remove_from_cart():
     if id in cart:
         del cart[id]
 
-    return redirect(url_for("view_cart"))
+    return redirect(url_for("checkout_details"))
 
 # Dean's part
 # Route for user_details
@@ -224,14 +234,19 @@ def display_user_info():
 
     customers_list = []
     user_info = []
+
+    # Iterate over customers_dict to create a list of all customers
     for key in customers_dict:
         user = customers_dict.get(key)
         customers_list.append(user)
-        for User in customers_list:
-            if session["user"] == User.get_email():
-                user_info.append(User)
-            else:
-                continue
+
+    # Filter the user whose email matches the email stored in the session
+    for user in customers_list:
+        if session["user"] == user.get_email():
+            user_info.append(user)  # Append the matching user to user_info
+            break  # Exit the loop once a match is found
+
+    # Now user_info contains the user whose email matches the one stored in the session
 
     return render_template('user_account/user_details.html', users_list=user_info)
 
@@ -279,18 +294,31 @@ def display_user_billing():
     customers_dict = {}
     db = shelve.open('customer_db', 'r')
     customers_dict = db['Customers']
+    transactions_dict = db["Transactions"]
     db.close()
 
     customers_list = []
     user_info = []
+
     for key in customers_dict:
         user = customers_dict.get(key)
         customers_list.append(user)
-        for User in customers_list:
-            if session["user"] == User.get_email():
-                user_info.append(User)
 
-    return render_template('user_account/user_billing.html', users_list=user_info)
+    # Filter the user whose email matches the email stored in the session
+    for user in customers_list:
+        if session["user"] == user.get_email():
+            user_info.append(user)  # Append the matching user to user_info
+            break  # Exit the loop once a match is found
+    
+    user_trans_list = []
+
+    # Iterate over transactions_dict and filter transactions by user email
+    for key in transactions_dict:
+        transaction = transactions_dict.get(key)
+        if session.get("user") == transaction.get_cust_email():
+            user_trans_list.append(transaction)
+
+    return render_template('user_account/user_billing.html', users_list=user_info, trans_list=user_trans_list)
 
 # route to payment method
 @app.route('/edit_payment_method/<int:id>/', methods=['GET', 'POST'])
@@ -332,12 +360,16 @@ def display_user_security():
 
     customers_list = []
     user_info = []
+
     for key in customers_dict:
         user = customers_dict.get(key)
         customers_list.append(user)
-        for User in customers_list:
-            if session["user"] == User.get_email():
-                user_info.append(User)
+
+    # Filter the user whose email matches the email stored in the session
+    for user in customers_list:
+        if session["user"] == user.get_email():
+            user_info.append(user)  # Append the matching user to user_info
+            break  # Exit the loop once a match is found
 
     return render_template('user_account/user_security.html', users_list=user_info)
 
@@ -368,12 +400,16 @@ def checkout_details():
 
     customers_list = []
     user_info = []
+
     for key in customers_dict:
         user = customers_dict.get(key)
         customers_list.append(user)
-        for User in customers_list:
-            if session["user"] == User.get_email():
-                user_info.append(User)
+
+    # Filter the user whose email matches the email stored in the session
+    for user in customers_list:
+        if session["user"] == user.get_email():
+            user_info.append(user)  # Append the matching user to user_info
+            break  # Exit the loop once a match is found
     global cart
     total_price = sum(product_info['product_price'] for product_info in cart.values()) if cart else 0.0
 
@@ -447,6 +483,7 @@ def banking_detail(id):
 # Route for confirming user details for checkout
 @app.route('/confirm/<int:id>/')
 def display_buyers(id):
+    global cart
     users_dict = {}
     db = shelve.open('customer_db', 'r')
     users_dict = db["Customers"]
@@ -455,14 +492,42 @@ def display_buyers(id):
     for key in users_dict:
         user = users_dict.get(key)
         users_list.append(user)
+    
+    customers_list = []
+    user_info = []
 
-    return render_template('checkout/confirm.html', users_list=users_list)
+    for key in users_dict:
+        user = users_dict.get(key)
+        customers_list.append(user)
+
+    # Filter the user whose email matches the email stored in the session
+    for user in customers_list:
+        if session["user"] == user.get_email():
+            user_info.append(user)  # Append the matching user to user_info
+            break  # Exit the loop once a match is found
+
+    return render_template('checkout/confirm.html', users_list=users_list, customer_list=user_info)
 
 # Route for confirmation page
-@app.route('/confirmation_page')
-def thank_you_for_purchase():
+@app.route('/confirmation_page/<int:id>/')
+def thank_you_for_purchase(id):
+    global cart
     # Generate a random purchase ID
     purchase_id = str(uuid.uuid4())[:15]
+    db = shelve.open('customer_db')
+    customers_dict = db['Customers']
+    email = session["user"]
+    print(email)
+    db["Transactions"] = db.get("Transactions", {}) 
+    item_price = sum(product_info['product_price'] for product_info in cart.values()) if cart else 0.0
+    total_price = item_price + 10
+
+    trans_info = transaction.Transaction(email, purchase_id, item_price, total_price)
+    db['Transactions'] = {
+            **db['Transactions'], 
+            trans_info.trans_id: trans_info
+        }
+    db.close()
 
     # Render the thank you page with the purchase ID
     return render_template('checkout/lastpage.html', purchase_id=purchase_id)

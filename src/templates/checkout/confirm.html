@@ -118,9 +118,10 @@
 </div>
 
 <div class="horizontal-line"></div>
-
+{% for user in customer_list %}
 <div class="button-design text-center">
-    <a href="/confirmation_page"><button>Confirm Purchase</button></a>
+    <a href="/confirmation_page/{{ user.get_customer_id() }}"><button>Confirm Purchase</button></a>
 </div>
+{% endfor %}
 
 {% endblock %}

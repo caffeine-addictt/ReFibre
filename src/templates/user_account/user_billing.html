@@ -60,12 +60,18 @@
                     <thead>
                         <tr>
                             <th class="border-gray-200" scope="col">Transaction ID</th>
-                            <th class="border-gray-200" scope="col">Date</th>
                             <th class="border-gray-200" scope="col">Amount</th>
                             <th class="border-gray-200" scope="col">Status</th>
                         </tr>
                     </thead>
                     <tbody>
+                        {% for trans in trans_list %}
+                        <tr>
+                            <td>{{ trans.get_trans_id() }}</td>
+                            <td>${{ trans.get_item_price() }}</td>
+                            <td>Complete</td>
+                        </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>

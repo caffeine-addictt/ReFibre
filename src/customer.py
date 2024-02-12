@@ -1,5 +1,4 @@
 from users import User
-import shelve
 
 class Customer(User):
     def __init__(self, customer_id, firstname, lastname, email, password):

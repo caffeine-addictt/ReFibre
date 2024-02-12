@@ -817,3 +817,14 @@ html {
 .slider-nav a:hover {
   opacity: 1;
 }
+
+/* Styling for the user profile picture */
+.img-account-profile {
+  height: 10rem;
+}
+.rounded-circle {
+  border-radius: 50% !important;
+}
+
+/* To remove the bullet point in the radiofield */
+fieldset.inlineLabels ul {list-style:none}

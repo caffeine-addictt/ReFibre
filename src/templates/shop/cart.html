@@ -8,7 +8,7 @@
     <ul>
         {% for id, product in cart.items() %}
             <img src="{{ product.image_url }}" alt="{{ product.product_name }}" width="50px" height="50px">
-            <li>{{ product.product_name }} - ${{ "{:.2f}".format(product.product_price) }}</li>
+            <li>{{ product.product_name }} - ${{ "{:.2f}".format(product.product_price) }} - <a href="/remove_from_cart?id={{id}}">Remove</a></li>
         {% endfor %}
     </ul>
     <p>Total Price: ${{ total_price }}</p>
