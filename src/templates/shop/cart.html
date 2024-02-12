@@ -12,10 +12,12 @@
         {% endfor %}
     </ul>
     <p>Total Price: ${{ total_price }}</p>
-       
-        <a href=""><h1>checkout</h1></a>
+        {% if "user" not in session %}
+            <a href="/signup" onclick="alert('You must have an account to checkout! Please create one or sign in to your account.')"><h1>checkout</h1></a>
+        {% elif session["user"] == "admin.refiber@gmail.com" %}
+            <a href="#" class="btn disable"><h1>checkout</h1></a>
+        {% else %}
+            <a href="#"><h1>checkout</h1></a>
+        {% endif %}
     
-    {% endblock %}
-    
-</body>
-</html>
+{% endblock %}
