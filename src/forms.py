@@ -18,18 +18,21 @@ class SignUpForm(FlaskForm):
     button = SubmitField(label='Create Now')
 
     def account_validate(email):
-        db = shelve.open('customer_db', 'r')
-        existing_user = db['Customers']
-        existing_list = []
-        for key in existing_user:
-            user = existing_user.get(key)
-            existing_list.append(user)
-        for user in existing_list:
-            if email == user.get_email():
-                return True
-            else:
-                continue
-        return False
+        try:
+            db = shelve.open('customer_db', 'r')
+            existing_user = db['Customers']
+            existing_list = []
+            for key in existing_user:
+                user = existing_user.get(key)
+                existing_list.append(user)
+            for user in existing_list:
+                if email == user.get_email():
+                    return True
+                else:
+                    continue
+            return False
+        except:
+            return False
             
 class SignInForm(FlaskForm):
     email = EmailField('Email', [Email(), DataRequired()])
@@ -37,21 +40,24 @@ class SignInForm(FlaskForm):
     button = SubmitField(label="Log In")
 
     def account_authenticate(self, email, password):
-        db = shelve.open('customer_db', 'r')
-        existing_user = db['Customers']
-        existing_list = []
-        for key in existing_user:
-            user = existing_user.get(key)
-            existing_list.append(user)
-        for user in existing_list:
-            if email == user.get_email():
-                user_pass = user.get_password()
-                return check_password_hash(user_pass, password)
-            elif email == "admin.refiber@gmail.com":
-                if password == "admin@password@1234":
-                    return True
-            else:
-                continue
+        try:
+            db = shelve.open('customer_db', 'r')
+            existing_user = db['Customers']
+            existing_list = []
+            for key in existing_user:
+                user = existing_user.get(key)
+                existing_list.append(user)
+            for user in existing_list:
+                if email == user.get_email():
+                    user_pass = user.get_password()
+                    return check_password_hash(user_pass, password)
+                elif email == "admin.refiber@gmail.com":
+                    if password == "admin@password@1234":
+                        return True
+                else:
+                    continue
+        except:
+            return True
 
 class ContactForm(FlaskForm):
     first_name = StringField('First Name', [Length(min=1, max=150), Regexp('^[a-zA-Z]+$', message="Username must contain only alphabetic characters."), DataRequired()])
@@ -59,6 +65,15 @@ class ContactForm(FlaskForm):
     email = EmailField('Email', [Email(), DataRequired()])
     message = TextAreaField('Remarks', [Length(min=10, message="Message must contain more than 5 letters"), DataRequired()])
     button = SubmitField(label='Submit')
+
+class ChangePassword(FlaskForm):
+    password = PasswordField('Password', validators=[
+        DataRequired(),
+        Length(min=8, message='Password must be at least 8 characters long'),
+        EqualTo('confirm_password', message='Passwords must match')
+    ])
+    confirm_password = PasswordField('Confirm Password')
+    button = SubmitField(label='Create Now')
 
 def is_valid_address(form, field):
     address = field.data

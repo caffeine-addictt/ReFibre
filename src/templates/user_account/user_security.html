@@ -19,36 +19,24 @@
         <a class="nav-link" href="/usersecurity">Security</a>
     </nav>
     <hr class="mt-0 mb-4">
-    <div class="row">
-        <div class="col-lg-8">
-            <!-- Change password card-->
-            <div class="card mb-4">
-                <div class="card-header">Change Password</div>
-                <div class="card-body">
-                    <form action="{{ url_for('change_password') }}" method="post">
-                        <!-- Form Group (current password) -->
-                        <div class="mb-3">
-                            <label class="small mb-1" for="current_password">Current Password</label>
-                            <input class="form-control" id="current_password" name="current_password" type="password"
-                                placeholder="Enter current password" required>
-                        </div>
-                        <!-- Form Group (new password) -->
-                        <div class="mb-3">
-                            <label class="small mb-1" for="new_password">New Password</label>
-                            <input class="form-control" id="new_password" name="new_password" type="password"
-                                placeholder="Enter new password" required>
-                        </div>
-                        <!-- Form Group (confirm password) -->
-                        <div class="mb-3">
-                            <label class="small mb-1" for="confirm_password">Confirm Password</label>
-                            <input class="form-control" id="confirm_password" name="confirm_password" type="password"
-                                placeholder="Confirm new password" required>
-                        </div>
-                        <button class="btn btn-primary" type="submit">Save</button>
-                    </form>
+    <div class="card card-header-actions mb-4">
+        <div class="card-header">
+            Security Details
+        </div>
+        <div class="card-body px-0">
+            <!-- Payment method-->
+            {% for user in users_list %}
+            <div class="row gx-3 mb-3">
+                <!-- Form Group (Name on Card)-->
+                <div class="col-md-12">
+                    <label class="small mb-1" for="">Password:</label>
+                    ****************
                 </div>
             </div>
         </div>
+        <div class="row gx-3 mb-3">
+            <a href="/update_security/{{user.get_customer_id()}}"><button class="btn btn-primary" type="button">Change Password</button></a>
+            {% endfor %}
+        </div>
     </div>
-</div>
 {% endblock %}

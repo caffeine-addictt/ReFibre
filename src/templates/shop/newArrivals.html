@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% block title %}Refiber-shop{% endblock %}
+
+ 
+{% block content %}
+
+
+<div class="buttons-container">
+    <a href="/shop/men"><button class="oval-button men">men</button></a>
+    <a href="/shop/women"><button class="oval-button women">Women</button></a>
+    <button class="oval-button new-arrivals" style="background-color: orange;">New arrivals</button>
+</div>
+
+
+<section class="shop-slider-container">
+    <div class="slider-wrapper">
+        <div class="slider">
+            <img src="../../static/refiber_clothes/new-arrivals-1.png" id="slide-1" alt="image of a girl in a blue flower patterned dress" class="slider-img">
+            <img src="../../static/refiber_clothes/new-arrivals-2.png" id="slide-2" alt="image of the same girl in a navy-blue flower patterned dress" class="slider-img">
+            <img src="../../static/refiber_clothes/new-arrivals-3.png" id="slide-3" alt="image of a man in a funny super oversized suit" class="slider-img">
+            <img src="../../static/refiber_clothes/new-arrivals-4.png" id="slide-4" alt="image of a meme ninja guy" class="slider-img">
+        </div>
+        <div class="slider-nav">
+            <a href="slide-1"></a>
+            <a href="slide-2"></a>
+            <a href="slide-3"></a>
+            <a href="slide-4"></a>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const slides = document.querySelectorAll(".slider-img");
+            const navLinks = document.querySelectorAll(".slider-nav a");
+
+        let currentIndex = 0;
+
+    // Show the slide with the given index
+        function showSlide(index) {
+        // Hide all slides
+                slides.forEach(function(slide) {
+                    slide.style.display = "none";
+                });
+
+                // Show the slide with the given index
+                slides[index].style.display = "block";
+            }
+
+            // Event listener for each navigation link
+            navLinks.forEach(function(link, index) {
+                link.addEventListener("click", function(event) {
+                    event.preventDefault(); // Prevent default link behavior
+
+                    // Update currentIndex to the clicked link's index
+                    currentIndex = index;
+
+                    // Show the corresponding slide
+                    showSlide(currentIndex);
+                });
+            });
+
+            // Show the initial slide (index 0)
+            showSlide(currentIndex);
+        });
+
+
+
+    </script>
+</section>
+
+
+
+
+
+
+<section class="shop-page">
+    <form action="/cart"  method="post">
+        <div class="grid-item pants">
+            <input name="id" type="hidden" value="101">
+            <input name="product-name" type="hidden" value="Men's refiber-pants">
+            <input name="price" type="hidden" value="10.00">
+            <input name="image_url" type="hidden" value="../static/refiber_clothes/pants.png">
+            <img src="../static/refiber_clothes/pants.png" alt="pants" class="grid-image">
+            <h2>refiber-pants</h2>
+            <p>$10.00</p>
+            <button class="add-to-cart-btn">Add to Cart</button>
+        </div>
+    </form>
+    <form action="/cart"  method="post">
+        <div class="grid-item jacket">
+            <input name="id" type="hidden" value="102">
+            <input name="product-name" type="hidden" value="Men's refiber-jacket">
+            <input name="price" type="hidden" value="19.99">
+            <input name="image_url" type="hidden" value="../static/refiber_clothes/jacket.png">
+            <img src="../static/refiber_clothes/jacket.png" alt="jacket">
+            <h2>refiber-jacket</h2>
+            <p>$19.99</p>
+            <button class="add-to-cart-btn" data-item-id="2">Add to Cart</button>
+        </div>
+    </form>
+    <form action="/cart" method="post">
+        <div  class="grid-item shirt">
+            <input name="id" type="hidden" value="103">
+            <input name="product-name" type="hidden" value="Men's refiber-shirt">
+            <input name="price" type="hidden" value="9.99">
+            <input name="image_url" type="hidden" value="../static/refiber_clothes/shirt.png">
+            <img src="../static/refiber_clothes/shirt.png" alt="shirt">
+            <h2>refiber-shirt</h2>
+            <p>$9.99</p>
+            <button class="add-to-cart-btn" data-item-id="3">Add to Cart</button>
+        </div>
+    </form>
+
+    <form action="/cart" method="post">
+        <div class="grid-item shorts">
+            <input name="id" type="hidden" value="104">
+            <input name="product-name" type="hidden" value="Men's refiber-shorts">
+            <input name="price" type="hidden" value="9.99">
+            <input name="image_url" type="hidden" value="../static/refiber_clothes/shorts.png">
+            <img src="../static/refiber_clothes/shorts.png" alt="shorts">
+            <h2>refiber-shorts</h2>
+            <p>$9.99</p>
+            <button class="add-to-cart-btn" data-item-id="4">Add to Cart</button>
+        </div>
+    </form>
+
+    <!-- Add more product entries as needed -->
+</section>
+
+
+
+
+{% endblock %}

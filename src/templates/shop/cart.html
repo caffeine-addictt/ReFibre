@@ -6,15 +6,18 @@
 
         <h1>Shopping Cart</h1>
     <ul>
-        {% for product in cart %}
-            <li>{{ product.name }} - ${{ product.price }}</li>
+        {% for id, product in cart.items() %}
+            <img src="{{ product.image_url }}" alt="{{ product.product_name }}" width="50px" height="50px">
+            <li>{{ product.product_name }} - ${{ "{:.2f}".format(product.product_price) }}</li>
         {% endfor %}
     </ul>
     <p>Total Price: ${{ total_price }}</p>
-       
-        <a href=""><h1>checkout</h1></a>
+        {% if "user" not in session %}
+            <a href="/signup" onclick="alert('You must have an account to checkout! Please create one or sign in to your account.')"><h1>checkout</h1></a>
+        {% elif session["user"] == "admin.refiber@gmail.com" %}
+            <a href="#" class="btn disable"><h1>checkout</h1></a>
+        {% else %}
+            <a href="/checkout_details"><h1>checkout</h1></a>
+        {% endif %}
     
-    {% endblock %}
-    
-</body>
-</html>
+{% endblock %}
