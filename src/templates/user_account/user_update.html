@@ -5,29 +5,31 @@
 {% from "includes/_formHelper.html" import render_field %}
 <h1 class="display-4">Update User</h1>
 <form method="POST" action="">
-    <div class="form-group">
-        {{ render_field(form.first_name, class="form-control") }}
-    </div>
-    <div class="form-group">
-        {{ render_field(form.last_name, class="form-control") }}
-    </div>
-    <div class="form-group">
-        {{ render_field(form.email, class="form-control") }}
-    </div>
-    <div class="form-group">
-        {{ render_field(form.gender, class="form-control") }}
-    </div>
-    <div class="form-group">
-        {{ render_field(form.postal_code, class="form-control") }}
-    </div>
-    <div class="form-group">
-        {{ render_field(form.address, class="form-control") }}
-    </div>
-    <div class="form-group">
-        {{ render_field(form.date_of_birth, class="form-control") }}
-    </div>
-    <div class="d-flex justify-content-center mt-4">
-        {{ form.button(class="btn btn-light btn-outline-dark btn-lg")}}
-    </div>
+    <fieldset class="inlineLabels">
+        <div class="form-group">
+            {{ render_field(form.first_name, class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ render_field(form.last_name, class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ render_field(form.email, class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ render_field(form.gender, class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ render_field(form.postal_code, class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ render_field(form.address, class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ render_field(form.date_of_birth, class="form-control") }}
+        </div>
+        <div class="d-flex justify-content-center mt-4">
+            {{ form.button(class="btn btn-light btn-outline-dark btn-lg")}}
+        </div>
+    </fieldset>
 </form>
 {% endblock %}
