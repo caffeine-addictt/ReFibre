@@ -66,6 +66,15 @@ class ContactForm(FlaskForm):
     message = TextAreaField('Remarks', [Length(min=10, message="Message must contain more than 5 letters"), DataRequired()])
     button = SubmitField(label='Submit')
 
+class ChangePassword(FlaskForm):
+    password = PasswordField('Password', validators=[
+        DataRequired(),
+        Length(min=8, message='Password must be at least 8 characters long'),
+        EqualTo('confirm_password', message='Passwords must match')
+    ])
+    confirm_password = PasswordField('Confirm Password')
+    button = SubmitField(label='Create Now')
+
 def is_valid_address(form, field):
     address = field.data
 

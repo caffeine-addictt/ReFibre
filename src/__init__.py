@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_session import Session
-from forms import SignUpForm, SignInForm, ContactForm, CreateBuyerForm, CreditCardDetail, RewardPoints, Customer_details_form, CreditCardForm
+from forms import SignUpForm, SignInForm, ContactForm, CreateBuyerForm, CreditCardDetail, RewardPoints, Customer_details_form, CreditCardForm, ChangePassword
 import shelve, customer, uuid
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_wtf.csrf import CSRFProtect
@@ -322,103 +322,61 @@ def add_payment_method(id):
 
         return render_template('user_account/add_payment_method.html', form=user_payment_form)
 
-# route to edit credit card details
-@app.route('/edit_credit_card', methods=['GET', 'POST'])
-def edit_credit_card():
-    if 'user' not in session:
-        return redirect(url_for('signin'))
-
-    customers_dict = {}
-    db = shelve.open('customer_db', 'w')
-    customers_dict = db['Customers']
-    db.close()
-
-    user_info = None
-
-    for key in customers_dict:
-        user = customers_dict.get(key)
-        if session["user"] == user.get_email():
-            user_info = user
-            break
-
-    if user_info is None:
-        return redirect(url_for('signin'))
-
-    if request.method == 'POST':
-        card_number = request.form.get('card_number')
-        expiration_date = request.form.get('expiration_date')
-        cvv = request.form.get('cvv')
-
-        # Update the credit card details
-        user_info.set_credit_card(card_number, expiration_date, cvv)
-
-        # Update the customer data in the shelf
-        db = shelve.open('customer_db', 'w')
-        db['Customers'][key] = user_info  # Update the specific user in the dictionary
-        db.close()
-
-        flash('Credit card details updated successfully', 'success')
-        return redirect(url_for('display_user_billing'))
-
-    return render_template('user_account/edit_credit_card.html', user_info=user_info)
-
 # route to display user security
 @app.route('/usersecurity')
 def display_user_security():
-    return render_template('user_account/user_security.html')
-
-# route for changing the password
-@app.route('/change_password', methods=['POST'])
-def change_password():
-    if 'user' not in session:
-        return redirect(url_for('signin'))
-
     customers_dict = {}
-    db = shelve.open('customer_db', 'w')
+    db = shelve.open('customer_db', 'r')
     customers_dict = db['Customers']
     db.close()
 
-    user_info = None
-
+    customers_list = []
+    user_info = []
     for key in customers_dict:
         user = customers_dict.get(key)
-        if session["user"] == user.get_email():
-            user_info = user
-            break
+        customers_list.append(user)
+        for User in customers_list:
+            if session["user"] == User.get_email():
+                user_info.append(User)
 
-    if user_info is None:
-        return redirect(url_for('signin'))
+    return render_template('user_account/user_security.html', users_list=user_info)
 
-    current_password = request.form.get('current_password')
-    new_password = request.form.get('new_password')
-    confirm_password = request.form.get('confirm_password')
+@app.route("/update_security/<int:id>/", methods=['GET', 'POST'])
+def update_user_security(id):
+    user_pass_form = ChangePassword(request.form)
+    if request.method == 'POST' and user_pass_form.validate():
+        db = shelve.open('customer_db', 'w')
+        users_dict = db['Customers']
+        user = users_dict.get(id)
+        hashed_password = generate_password_hash(user_pass_form.password.data)
+        user.set_password(hashed_password)
+        db['Customers'] = users_dict
+        db.close()
 
-    if not current_password or not new_password or not confirm_password:
-        flash('All fields must be filled', 'danger')
         return redirect(url_for('display_user_security'))
-
-    # Check if the entered current password matches the stored hashed password
-    if not check_password_hash(user_info.get_password(), current_password.encode('utf-8')):
-        flash('Current password is incorrect', 'danger')
-        return redirect(url_for('display_user_security'))
-
-    if new_password != confirm_password:
-        flash('New password and confirm password must match', 'danger')
-        return redirect(url_for('display_user_security'))
-
-    # Hash and set the new password
-    hashed_new_password = generate_password_hash(new_password)
-    user_info.set_password(hashed_new_password)
-
-    # Update the customer data in the shelf
-    db = shelve.open('customer_db', 'w')
-    db['Customers'] = customers_dict
-    db.close()
-
-    flash('Password changed successfully', 'success')
-    return redirect(url_for('display_user_security'))
+    else:
+        return render_template('user_account/edit_security.html', form=user_pass_form)
 
 #Ji wei's part
+# Route for confirming user purchase details
+@app.route('/checkout_details')
+def checkout_details():
+    global cart
+    if request.method == 'POST':
+        id: int = int(request.form.get('id'))
+        name = request.form.get('product-name')
+        price = float(request.form.get('price'))
+        image_url = request.form.get('image_url')
+        cart[id] = {
+            'product_name': name,
+            'product_price': price,
+            'image_url': image_url
+        }
+        return redirect(url_for('view_cart'))
+
+    total_price = sum(product_info['product_price'] for product_info in cart.values()) if cart else 0.0
+    return render_template('shop/cart.html', cart=cart, total_price=total_price)
+
 # Route for confirming user personal info
 @app.route('/checkout/<int:id>/', methods=['GET','POST'])
 def personal_detail(id):
