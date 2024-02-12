@@ -1,349 +1,857 @@
 /*  Jian Yu's CSS */
-html{
-    scroll-behavior: smooth;
-  }
-  
-.footer-link{
-    font-size: larger;
-  }
-  
-  /* Responsive navbar for small screen */
+html {
+  scroll-behavior: smooth;
+}
+
+.footer-link {
+  font-size: larger;
+}
+
+/* Responsive navbar for small screen */
 @media (max-width: 991.98px) {
-.navbar-nav {
+  .navbar-nav {
     width: 100%;
     justify-content: center;
+  }
 }
+
+
+/* Profile Picture */
+.profile-pic {
+  display: inline-block;
+  vertical-align: middle;
+  width: 50px;
+  height: 50px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.profile-pic img {
+  width: 70%;
+  height: 70%;
+  object-fit: cover;
+}
+
+.profile-menu .dropdown-menu {
+  right: 0;
+  left: unset;
+}
+
+.profile-menu .fa-fw {
+  margin-right: 10px;
+}
+
+.toggle-change::after {
+  border-top: 0;
+  border-bottom: 0.3em solid;
+}
+
+/* Styling for homepage */
+
+.homepagecover-text {
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 1rem;
+  text-shadow: 0.5px 0.5px #000;
+}
+
+/*  Ji Wei's CSS */
+.checkout-main {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+  border: none;
+  text-transform: capitalize;
+  transition: all .2s linear;
+}
+
+.container-checkout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 25px;
+  min-height: 80vh;
+  background: white;
+  padding-bottom: 70px;
+
+  .navbar-toggler {
+
   
 .navbar-toggler {
+
     order: -1;
-}
-  
-.navbar .container-fluid {
+  }
+
+  .navbar .container-fluid {
     display: flex;
     justify-content: space-between;
-    }
+  }
 }
-  
-  /* Profile Picture */
-  .profile-pic{
-      display: inline-block;
-      vertical-align: middle;
-       width: 50px;
-       height: 50px;
-       overflow: hidden;
-      border-radius: 50%;
-   }
-   
-   .profile-pic img{
-      width: 70%;
-      height: 70%;
-      object-fit: cover;
-   }
-   .profile-menu .dropdown-menu {
-     right: 0;
-     left: unset;
-   }
-   .profile-menu .fa-fw {
-     margin-right: 10px;
-   }
-   
-   .toggle-change::after {
-     border-top: 0;
-     border-bottom: 0.3em solid;
-   }
-  
-   /* Styling for homepage */
-  
-  .homepagecover-text {
-    text-align: center;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    font-size: 1rem;
-    text-shadow: 0.5px 0.5px #000;
-  }
-  
-  /*  Ji Wei's CSS */
-  .checkout-main{
-    font-family: 'Poppins', sans-serif;
-    margin:0;
-    padding:0;
-    box-sizing: border-box;
-    outline: none;
-    border:none;
-    text-transform: capitalize;
-    transition: all .2s linear;
-  }
-  
-  .container-checkout {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 25px;
-    min-height: 100vh;
-    background: white;
-    padding-bottom: 70px;
-  }
-  
-  .container-checkout form{
-    padding: 20px;
-    width: 600px;
-    background: #fff;
-    box-shadow: 0 5px 10px rgba(0,0,0,.1);
-    
-  }
-  
-  .title{
-    font-size: 20px;
-    color: #333;
-    padding-bottom: 20px;
-    text-transform: uppercase;
-    text-align: center;
-  }
-  
-  .form-checkout{
-    margin: 15px 0;
-    margin-left: 110px;
-   
-  }
-  
-  .form-control span{
-    margin-bottom: 5px;
-    display: block;
-  
-  }
-  
-  .form-control input{
-    width: 60%;
-    border: 1px solid lightgrey;
-    padding: 10px 15px;
-    font-size: 12px;
-    text-transform: none;
-    
-  }
-  
-  .form-control input:focus {
-    border: 1px solid #000;
-  }
-  
-  .container-checkout form input {
-    width: 60%;
-    padding: 12px;
-    font-size: 12px;
-    color: black;
-    margin-top: 5px;
-    cursor: pointer;
-  
-  }
-  .container-checkout form button {
-    width: 20%;
-    padding: 12px;
-    font-size: 12px;
-    background: black;
-    color: white;
-    margin-top: 5px;
-    cursor: pointer;
-    margin-left: auto;
-    margin-right: auto;
-  
-  }
-  
-  
-  .container-checkout .inputform img{
-    height: 34px;
-    margin-top: 5px;
-    filter: drop-shadow(0 0 1px black);
-  
-  }
-  
-  .inputform span {
-    margin-left: 110px;
-  }
-  
-  .checkout {
-    background-color: white;
-    height: 20vh;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .checkout-bar {
-    background: #fff;
-  
-    color: #333;
-    list-style-type: none;
-    border-radius: 10px;
-    display: flex;
-    padding: 50px 50px;
-    position: relative;
-    z-index: 10;
-  }
-  
-  .checkout-steps {
-    padding: 0 20px;
-    flex-basis: 0;
-    -webkit-box-flex: 1;
-    -ms-flex-positive: 1;
-    flex-grow: 1;
-    max-width: 100%;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    min-width: 170px;
-    position: relative;
-  }
-  
-  .checkout-steps+.checkout-steps:after {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 19px;
-    background: rgb(63, 216, 63);
-    width: 100%;
-    height: 2px;
-    transform: translateX(-50%);
-    z-index: -10;
-  }
-  
-  .progress-count-done {
-    height: 40px;
-    width: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    font-weight: 600;
-    margin: 0 auto;
-    position: relative;
-    z-index: 10;
-    color: transparent;
-  
-  }
-  
-  .progress-count-yet {
-    height: 40px;
-    width: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    font-weight: 600;
-    margin: 0 auto;
-    position: relative;
-    z-index: 10;
-    color: transparent;
-    background: #fff;
-    border: 2px solid rgb(63, 216, 63);
-    color: black;
-  }
-  
-  .progress-count-done:after {
-    content: "";
-    height: 40px;
-    width: 40px;
-    background: rgb(63, 216, 63);
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 50%;
-    z-index: -10;
-  }
-  
-  .progress-count {
-    height: 40px;
-    width: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    font-weight: 600;
-    margin: 0 auto;
-    position: relative;
-    z-index: 10;
-    color: transparent;
-  }
-  
-  .progress-count-done:before {
-    content: "";
-    height: 10px;
-    width: 20px;
-    border-left: 3px solid #fff;
-    border-bottom: 3px solid #fff;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -60%) rotate(-45deg);
-    transform-origin: center center;
-  }
-  
-  .progress-label {
-    font-size: 14px;
-    font-weight: 600;
-    margin-top: 10px;
-  }
-  
-  .current-item .progress-count:before,
-  .current-item~.checkout-steps .progress-count:before {
-    display: none;
-  }
-  
-  .current-item~.checkout-steps .progress-label {
-    opacity: 0.5;
-  }
-  
-  .current-item .progress-count {
-    background: #fff;
-    border: 2px solid rgb(63, 216, 63);
-  }
-  
-  
-  .current-item .progress-count {
-    color: black;
-  }
-  
-  .custom-table {
-    border-collapse: collapse;
-    width: 100%;
-    margin-top: 15px;
-    padding-left: 100px;
-  }
-  
-  .p-confirm {
+
+/* Profile Picture */
+.profile-pic {
+  display: inline-block;
+  vertical-align: middle;
+  width: 50px;
+  height: 50px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.profile-pic img {
+  width: 70%;
+  height: 70%;
+  object-fit: cover;
+}
+
+.profile-menu .dropdown-menu {
+  right: 0;
+  left: unset;
+}
+
+.profile-menu .fa-fw {
+  margin-right: 10px;
+}
+
+.toggle-change::after {
+  border-top: 0;
+  border-bottom: 0.3em solid;
+}
+
+/* Styling for homepage */
+
+.homepagecover-text {
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 1rem;
+  text-shadow: 0.5px 0.5px #000;
+}
+
+/*  Ji Wei's CSS */
+.checkout-main {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+  border: none;
+  text-transform: capitalize;
+  transition: all .2s linear;
+}
+
+.container-checkout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 25px;
+  min-height: 100vh;
+  background: white;
+  padding-bottom: 70px;
+}
+
+.container-checkout form {
+  padding: 20px;
+  width: 600px;
+  background: #fff;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, .1);
+
+}
+
+.title {
   font-size: 20px;
+
+  color: #333;
+  padding-bottom: 20px;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.form-checkout {
+  margin: 15px 0;
+  margin-left: 110px;
+
+}
+
+.form-control span {
+  margin-bottom: 5px;
+  display: block;
+
+}
+
+.form-control input {
+  width: 60%;
+  border: 1px solid lightgrey;
+  padding: 10px 15px;
+  font-size: 12px;
+  text-transform: none;
+
+}
+
+.form-control input:focus {
+  border: 1px solid #000;
+}
+
+.container-checkout form input {
+  width: 60%;
+  padding: 12px;
+  font-size: 12px;
+  color: black;
+  margin-top: 5px;
+  cursor: pointer;
+
+}
+
+.container-checkout form button {
+  width: 20%;
+  padding: 12px;
+  font-size: 12px;
+  background: black;
+  color: white;
+  margin-top: 5px;
+  cursor: pointer;
+  margin-left: auto;
+  margin-right: auto;
+
+}
+
+
+.container-checkout .inputform img {
+  height: 34px;
+  margin-top: 5px;
+  filter: drop-shadow(0 0 1px black);
+
+}
+
+.inputform span {
+  margin-left: 110px;
+}
+
+.checkout {
+  background-color: white;
+  height: 20vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.checkout-bar {
+  background: #fff;
+
+  color: #333;
+  list-style-type: none;
+  border-radius: 10px;
+  display: flex;
+  padding: 50px 50px;
+  position: relative;
+  z-index: 10;
+}
+
+.checkout-steps {
+  padding: 0 20px;
+  flex-basis: 0;
+  -webkit-box-flex: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  min-width: 170px;
+  position: relative;
+}
+
+.checkout-steps+.checkout-steps:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 19px;
+  background: rgb(63, 216, 63);
+  width: 100%;
+  height: 2px;
+  transform: translateX(-50%);
+  z-index: -10;
+}
+
+.progress-count-done {
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-weight: 600;
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+  color: transparent;
+
+}
+
+.progress-count-yet {
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-weight: 600;
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+  color: transparent;
+  background: #fff;
+  border: 2px solid rgb(63, 216, 63);
+  color: black;
+}
+
+.progress-count-done:after {
+  content: "";
+  height: 40px;
+  width: 40px;
+  background: rgb(63, 216, 63);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  z-index: -10;
+}
+
+.progress-count {
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-weight: 600;
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+  color: transparent;
+}
+
+.progress-count-done:before {
+  content: "";
+  height: 10px;
+  width: 20px;
+  border-left: 3px solid #fff;
+  border-bottom: 3px solid #fff;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -60%) rotate(-45deg);
+  transform-origin: center center;
+}
+
+.progress-label {
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+.current-item .progress-count:before,
+.current-item~.checkout-steps .progress-count:before {
+  display: none;
+}
+
+.current-item~.checkout-steps .progress-label {
+  opacity: 0.5;
+}
+
+.current-item .progress-count {
+  background: #fff;
+  border: 2px solid rgb(63, 216, 63);
+}
+
+
+.current-item .progress-count {
+  color: black;
+}
+
+.custom-table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 15px;
+  padding-left: 100px;
+}
+
+.p-confirm {
+  font-size: 20px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.form-control input:focus {
+  border: 1px solid #000;
+}
+
+.container-checkout form input {
+  width: 60%;
+  padding: 12px;
+  font-size: 12px;
+  color: black;
+  margin-top: 5px;
+  cursor: pointer;
+
+}
+
+.container-checkout form button {
+  width: 20%;
+  padding: 12px;
+  font-size: 12px;
+  background: white;
+  color: black;
+  margin-top: 5px;
+  cursor: pointer;
+  margin-left: auto;
+  margin-right: auto;
+
+}
+
+
+.container-checkout .inputform img {
+  height: 34px;
+  margin-top: 5px;
+  filter: drop-shadow(0 0 1px black);
+
+}
+
+.inputform span {
+  margin-left: 110px;
+}
+
+.checkout {
+  background-color: white;
+  height: 20vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.checkout-bar {
+  background: #fff;
+  color: #333;
+  list-style-type: none;
+  border-radius: 10px;
+  display: flex;
+  padding: 50px 50px;
+  position: relative;
+  z-index: 10;
+}
+
+.checkout-steps {
+  padding: 0 20px;
+  flex-basis: 0;
+  -webkit-box-flex: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  min-width: 170px;
+  position: relative;
+}
+
+.checkout-steps+.checkout-steps:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 19px;
+  background: rgb(63, 216, 63);
+  width: 100%;
+  height: 2px;
+  transform: translateX(-50%);
+  z-index: -10;
+}
+
+.progress-count-done {
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-weight: 600;
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+  color: transparent;
+
+}
+
+.progress-count-yet {
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-weight: 600;
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+  color: transparent;
+  background: #fff;
+  border: 2px solid rgb(63, 216, 63);
+  color: black;
+}
+
+.progress-count-done:after {
+  content: "";
+  height: 40px;
+  width: 40px;
+  background: rgb(63, 216, 63);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  z-index: -10;
+}
+
+.progress-count {
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-weight: 600;
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+  color: transparent;
+}
+
+.progress-count-done:before {
+  content: "";
+  height: 10px;
+  width: 20px;
+  border-left: 3px solid #fff;
+  border-bottom: 3px solid #fff;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -60%) rotate(-45deg);
+  transform-origin: center center;
+}
+
+.progress-label {
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+.current-item .progress-count:before,
+.current-item~.checkout-steps .progress-count:before {
+  display: none;
+}
+
+.current-item~.checkout-steps .progress-label {
+  opacity: 0.5;
+}
+
+.current-item .progress-count {
+  background: #fff;
+  border: 2px solid rgb(63, 216, 63);
+}
+
+
+.current-item .progress-count {
+  color: black;
+}
+
+.custom-table {
+  border-collapse: collapse;
+  margin-top: 5px;
+  padding-left: 100px;
+  border: 2px solid black;
+  border-color: black;
+
+}
+
+.p-confirm {
+
+  font-size: 18px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.p2 {
+
+  float: right;
+  /* Align "Edit" button to the right */
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.custom-table th,
+.custom-table td {
+
+  display: block;
+  font-size: 15px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  margin-bottom: 15px;
+  width: 450px;
+}
+
+.container-purchase {
+  padding-top: 100px;
+  padding-bottom: 500px;
+}
+
+.container-purchase button {
+  width: 10%;
+  padding: 12px;
+  font-size: 15px;
+  background: white;
+  color: black;
+  margin-top: 30px;
+  cursor: pointer;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.button-design button {
+  width: 10%;
+  padding: 12px;
+  font-size: 15px;
+  background: white;
+  color: black;
+  margin-top: 30px;
+  cursor: pointer;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.horizontal-line {
+  border-top: 2px solid black;
+  /* Adjust the color and thickness as needed */
+  width: 100%;
+  /* Ensure the line spans the entire width of the page */
+  margin: 20px 0;
+  /* Adjust the margin as needed */
+}
+
+@media only screen and (max-width: 768px) {
+
+  .custom-table th,
+  .custom-table td {
+    display: inline-block;
+    width: auto;
+    margin-bottom: 5px;
+  }
+
+  .custom-table {
+    padding-left: 0;
+    width: 100%;
+  }
+
+  .p2 {
+    padding-left: 0;
+  }
+
+  .container-confirm {
+    padding: 0 10px;
+    /* Add padding to adjust spacing */
+  }
+
+  .checkout-bar {
+    padding: 20px;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+
+  .checkout-steps {
+    margin-bottom: 20px;
+  }
+
+  .progress-count-done,
+  .progress-count-yet,
+  .progress-count {
+    font-size: 12px;
+    height: 30px;
+    width: 30px;
+  }
+
+  .progress-label {
+    font-size: 12px;
+  }
+
+  .progress-count-done:after {
+    height: 30px;
+    width: 30px;
+  }
+
+  .progress-count-done:before {
+    height: 8px;
+    width: 16px;
+  }
+}
+
+.p2 {
+
   font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   }
   
   .p2 {
+
   padding-left: 150px;
-  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  }
-  
-  .p1 {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.p1 {
   padding-left: 130px;
-  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  }
-  
-  .custom-table th,
-  .custom-table td {
-    border: none;
-    text-align: left;
-    padding: 10px;
-    white-space: nowrap; 
-    display: block;
-    font-size: 15px;
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    margin-bottom: 15px;
-  }
-  
-  
-  .container-confirm {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.custom-table th,
+.custom-table td {
+  border: none;
+  text-align: left;
+  padding: 10px;
+  white-space: nowrap;
+  display: block;
+  font-size: 15px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  margin-bottom: 15px;
+}
+
+
+.container-confirm {
   margin-top: 100px;
   margin-left: 270px;
+
+}
+
+/*  keefe's's CSS */
+.shop-page {
+  align-items: flex-start;
+  /* Adjust alignment */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 100px;
+  justify-content: center;
+  /* Adjust alignment */
+}
+
+.grid-item {
+  max-width: 300px;
+  text-align: center;
+  padding: 20px;
+}
+
+.grid-item img {
+  width: 100%;
+  height: auto;
+  /* Auto height */
+  max-height: 300px;
+  /* Max height for consistency */
+  object-fit: cover;
+}
+
+/* Positioning for the footer */
+.shop-footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Positioning for the buttons container */
+.buttons-container {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+}
+
+/* Styling for the oval buttons */
+.oval-button {
+  background-color: transparent;
+  border: 2px solid #000;
+  border-radius: 20px;
+  padding: 10px 20px;
+  margin: 0 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Styling for the slider and slider navigation */
+.slider-wrapper {
+  position: relative;
+  max-width: 500px;
+  /* Adjust max-width */
+  max-height: 300px;
+  /* Adjust max-height */
+  margin: 0 auto;
+}
+
+.slider {
+  display: flex;
+  aspect-ratio: 16/9;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  box-shadow: 0 1.5rem 3rem -0.75rem hsla(0, 0%, 0%, 0.25);
+  border-radius: 0.5rem;
+  width: 100%;
+  /* Adjust width */
+  height: 100%;
+  /* Adjust height */
+}
+
+.slider-img {
+  flex: 1 0 100%;
+  scroll-snap-align: start;
+  object-fit: contain;
+  /* Fit fully without stretching */
+  max-width: 100%;
+  /* Ensure the image does not exceed the container width */
+  max-height: 100%;
+  /* Ensure the image does not exceed the container height */
+}
+
+.slider-nav {
+  display: flex;
+  column-gap: 1rem;
+  position: absolute;
+  bottom: 1.25rem;
+  left: 50%;
+  transform: translate(-50%);
+  z-index: 1;
+}
+
+.slider-nav a {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background-color: #fff;
+  opacity: 0.75;
+  transition: opacity ease 250ms;
+}
+
+.slider-nav a:hover {
+  opacity: 1;
+}
+=======
   }
   
   /*  keefe's's CSS */
@@ -451,3 +959,4 @@ html{
   .slider-nav a:hover {
     opacity: 1;
   }
+
