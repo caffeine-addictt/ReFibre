@@ -90,7 +90,7 @@ def signout():
 
 # Rachel's part
 # Route for admin page
-@app.route('/signin/admin')
+@app.route('/admin')
 def admin_page():
     try:
         print(session["user"])
@@ -361,21 +361,23 @@ def update_user_security(id):
 # Route for confirming user purchase details
 @app.route('/checkout_details')
 def checkout_details():
-    global cart
-    if request.method == 'POST':
-        id: int = int(request.form.get('id'))
-        name = request.form.get('product-name')
-        price = float(request.form.get('price'))
-        image_url = request.form.get('image_url')
-        cart[id] = {
-            'product_name': name,
-            'product_price': price,
-            'image_url': image_url
-        }
-        return redirect(url_for('view_cart'))
+    customers_dict = {}
+    db = shelve.open('customer_db', 'r')
+    customers_dict = db['Customers']
+    db.close()
 
+    customers_list = []
+    user_info = []
+    for key in customers_dict:
+        user = customers_dict.get(key)
+        customers_list.append(user)
+        for User in customers_list:
+            if session["user"] == User.get_email():
+                user_info.append(User)
+    global cart
     total_price = sum(product_info['product_price'] for product_info in cart.values()) if cart else 0.0
-    return render_template('shop/cart.html', cart=cart, total_price=total_price)
+
+    return render_template('checkout/checkout_details.html', cart=cart, total_price=total_price, users_list=user_info)
 
 # Route for confirming user personal info
 @app.route('/checkout/<int:id>/', methods=['GET','POST'])
