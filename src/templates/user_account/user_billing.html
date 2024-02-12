@@ -10,7 +10,7 @@
     <!-- Account page navigation-->
     <nav class="nav nav-borders">
         <a class="nav-link active ms-0" href="/userdetails">Profile</a>
-        <a class="nav-link" href="/userbilling" >Billing</a>
+        <a class="nav-link" href="/userbilling">Billing</a>
         <a class="nav-link" href="/usersecurity">Security</a>
     </nav>
     <hr class="mt-0 mb-4">
@@ -31,10 +31,10 @@
             </div>
         </div>
         <div class="row gx-3 mb-3">
-            <!-- Form Group (Gender)-->
+            <!-- Form Group (Card number)-->
             <div class="col-md-12">
                 <label class="small mb-1" for="">Card Number:</label>
-                {{ user.get_card_number() }}
+                ************{{ user.get_card_number()[-3:] }}
             </div>
             <div class="col-md-12">
                 <label class="small mb-1" for="inputDate">Expiry:</label>
@@ -42,10 +42,11 @@
             </div>
             <div class="col-md-12">
                 <label class="small mb-1" for="">CVV:</label>
-                {{ user.get_cvv() }}
+                ***
             </div>
-            <a href="/edit_payment_method/{{user.get_customer_id()}}"><button class="btn btn-primary" type="button">Edit Payment
-                Method</button></a>
+            <a href="/edit_payment_method/{{user.get_customer_id()}}"><button class="btn btn-primary" type="button">Edit
+                    Payment
+                    Method</button></a>
             {% endfor %}
         </div>
     </div>

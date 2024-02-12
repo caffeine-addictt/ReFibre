@@ -133,14 +133,14 @@ class Customer_details_form(FlaskForm):
     first_name = StringField('First Name', [Length(min=1, max=150), DataRequired()])
     last_name = StringField('Last Name', [Length(min=1, max=150), DataRequired()])
     email = EmailField('Email', [Email(), DataRequired()])
-    gender = RadioField('Gender', choices=[('male', 'Male'), ('female', 'Female')])
+    gender = RadioField('Gender', choices=[('Male'), ('Female')])
     postal_code = TextAreaField('Postal Code', [validators.length(max=200), validators.DataRequired()])
     address = TextAreaField('Address', [validators.length(max=200), validators.DataRequired()])
     date_of_birth = DateField ('Date of Birth', format='%Y-%m-%d')
     button = SubmitField(label='Update')
 
 class CreditCardForm(FlaskForm):
-    name = StringField('Name', [validators.Length(min=1, max=150), validators.DataRequired()])
+    name = StringField('Name', [validators.Length(min=1, max=150), Regexp('^[a-zA-Z]+$', message="Username must contain only alphabetic characters."), validators.DataRequired()])
     card_number = StringField('Card Number', [validators.Length(min=16, max=16), validators.DataRequired()])
     expiration_date = StringField('Expiry Date (MM/YYYY)',[validators.Length(min=7, max= 7), validators.DataRequired(), valid_expiry_date])
     cvv = IntegerField('CVV', [validators.NumberRange(min=100, max=999), validators.DataRequired()])
