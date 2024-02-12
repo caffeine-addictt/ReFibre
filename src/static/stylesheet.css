@@ -82,7 +82,7 @@ html{
   justify-content: center;
   align-items: center;
   padding: 25px;
-  min-height: 100vh;
+  min-height: 80vh;
   background: white;
   padding-bottom: 70px;
 }
@@ -141,8 +141,8 @@ html{
   width: 20%;
   padding: 12px;
   font-size: 12px;
-  background: black;
-  color: white;
+  background: white;
+  color: black;
   margin-top: 5px;
   cursor: pointer;
   margin-left: auto;
@@ -173,7 +173,6 @@ html{
 
 .checkout-bar {
   background: #fff;
-
   color: #333;
   list-style-type: none;
   border-radius: 10px;
@@ -308,40 +307,119 @@ html{
 
 .custom-table {
   border-collapse: collapse;
-  width: 100%;
-  margin-top: 15px;
+  margin-top: 5px;
   padding-left: 100px;
+  border: 2px solid black;
+  border-color: black;
+
 }
 
 .p-confirm {
-font-size: 20px;
-font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+  font-size: 18px;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 .p2 {
-padding-left: 150px;
-font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-}
 
-.p1 {
-padding-left: 130px;
-font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  float: right; /* Align "Edit" button to the right */
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 .custom-table th,
 .custom-table td {
-  border: none;
-  text-align: left;
-  padding: 10px;
-  white-space: nowrap; 
+
   display: block;
   font-size: 15px;
   font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   margin-bottom: 15px;
+  width: 450px;
 }
 
-
-.container-confirm {
-margin-top: 100px;
-margin-left: 270px;
+.container-purchase {
+  padding-top: 100px;
+  padding-bottom: 500px;
 }
+
+.container-purchase button {
+  width: 10%;
+  padding: 12px;
+  font-size: 15px;
+  background: white;
+  color: black;
+  margin-top: 30px;
+  cursor: pointer;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.button-design button {
+  width: 10%;
+  padding: 12px;
+  font-size: 15px;
+  background: white;
+  color: black;
+  margin-top: 30px;
+  cursor: pointer;
+  margin-left: auto;
+  margin-right: auto;
+}
+.horizontal-line {
+  border-top: 2px solid black; /* Adjust the color and thickness as needed */
+  width: 100%; /* Ensure the line spans the entire width of the page */
+  margin: 20px 0; /* Adjust the margin as needed */
+}
+
+@media only screen and (max-width: 768px) {
+  .custom-table th,
+  .custom-table td {
+    display: inline-block;
+    width: auto;
+    margin-bottom: 5px;
+  }
+
+  .custom-table {
+    padding-left: 0;
+    width: 100%;
+  }
+
+  .p2 {
+    padding-left: 0;
+  }
+
+  .container-confirm {
+    padding: 0 10px; /* Add padding to adjust spacing */
+  }
+  .checkout-bar {
+    padding: 20px;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+
+  .checkout-steps {
+    margin-bottom: 20px;
+  }
+
+  .progress-count-done,
+  .progress-count-yet,
+  .progress-count {
+    font-size: 12px;
+    height: 30px;
+    width: 30px;
+  }
+
+  .progress-label {
+    font-size: 12px;
+  }
+
+  .progress-count-done:after {
+    height: 30px;
+    width: 30px;
+  }
+
+  .progress-count-done:before {
+    height: 8px;
+    width: 16px;
+  }
+}
+
