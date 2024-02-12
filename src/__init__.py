@@ -153,9 +153,24 @@ def delete_customer(id):
 # Route for shop
 @app.route('/shop')
 def display_items():
-    return render_template('shop/shop.html')
+    return render_template('shop/men.html')
 
-# Route for shopping cart
+  
+@app.route('/shop/women')
+def display_women_items():
+    return render_template('shop/women.html')
+
+  
+@app.route('/shop/new-arrivals')
+def display_new_arrivals():
+    return render_template('shop/newArrivals.html')
+
+ 
+@app.route('/shop/men')
+def display_men_items():
+    return render_template('shop/men.html')
+
+
 @app.route('/cart', methods=['GET', 'POST'])
 def view_cart():
     global cart
@@ -163,17 +178,18 @@ def view_cart():
         id: int = int(request.form.get('id'))
         name = request.form.get('product-name')
         price = float(request.form.get('price'))
+        image_url = request.form.get('image_url')
         cart[id] = {
             'product_name': name,
-            'product_price': price
+            'product_price': price,
+            'image_url': image_url
         }
-
         return redirect(url_for('view_cart'))
 
     total_price = sum(product_info['product_price'] for product_info in cart.values()) if cart else 0.0
     return render_template('shop/cart.html', cart=cart, total_price=total_price)
 
-# Route for adding items to cart
+
 @app.route('/add_to_cart/<int:product_id>')
 def add_to_cart(product_id):
     global cart
@@ -184,7 +200,7 @@ def add_to_cart(product_id):
         session['cart'] = cart
     return redirect(url_for('shop'))
 
-# Route for removing items from cart
+
 @app.route('/remove_from_cart')
 def remove_from_cart():
     try:
