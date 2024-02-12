@@ -6,7 +6,7 @@
 <h1 class="display-4">Update Reward Points</h1>
 <form method="POST" action="">
     <div class="form-group">
-        {{ render_field (form.reward_point, class="form-control", max="5000") }}
+        {{ render_field (form.reward_point, class="form-control", min="0", max="5000") }}
     </div>
     <br>
     <input type="submit" value="Submit" class="btn btn-primary">

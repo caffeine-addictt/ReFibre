@@ -17,11 +17,11 @@
     <div class="tab-pane container-fluid active" id="sales_overview">
         <p>Check by: Today Weekly Monthly Yearly</p>
         <br>
-        <img src="static/crew-neck-t-shirt-shorts-low-top-sneakers-large-62660.jpg" style="margin-left: auto; margin-right: auto; display: block;">
+        <img src="/static/crew-neck-t-shirt-shorts-low-top-sneakers-large-62660.jpg" style="margin-left: auto; margin-right: auto; display: block;">
         <p style="text-align: center;">Total Amount of Accounts:</p>
-        <img src="static/bc1fab9c053a0bb210c7af4dcaf6ddb8.jpg" style="width: 325px; height: 406px; margin-left: auto; margin-right: auto; display: block;">
+        <img src="/static/bc1fab9c053a0bb210c7af4dcaf6ddb8.jpg" style="width: 325px; height: 406px; margin-left: auto; margin-right: auto; display: block;">
         <p style="text-align: center;">Total Sales Made:</p>
-        <img src="static/il_570xN.3549918261_13ve.png" style="width: 325px; height: 406px; margin-left: auto; margin-right: auto; display: block;">
+        <img src="/static/SD_03_T15_1603F_VP_X_EC_0.jpg" style="width: 325px; height: 406px; margin-left: auto; margin-right: auto; display: block;">
         <p style="text-align: center;">Total Account Made:</p>
     </div>
 
@@ -51,7 +51,37 @@
                     <td><a href="/reward_points/{{user.get_customer_id()}}" class="btn btn-warning">Update</a></td>
                     <td>
                         <form action="{{url_for('delete_customer', id=user.get_customer_id())}}" method="POST">
-                            <input type="submit" value="Delete" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete {{user.get_first_name()}} {{user.get_last_name()}}?')">
+                            <!-- <input type="submit" value="Delete" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete {{user.get_first_name()}} {{user.get_last_name()}}?')"> -->
+                            <!-- Button to Open the Modal -->
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#myModal_{{user.get_customer_id()}}">
+                                Delete
+                            </button>
+                            
+                            <!-- The Modal -->
+                            <div class="modal" id="myModal_{{user.get_customer_id()}}">
+                                <div class="modal-dialog">
+                                <div class="modal-content">
+                            
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                    <h4 class="modal-title">Delete Confirmation</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                            
+                                    <!-- Modal body -->
+                                    <div class="modal-body">
+                                    Are you sure you want to delete {{user.get_first_name()}} {{user.get_last_name()}}?
+                                    </div>
+                            
+                                    <!-- Modal footer -->
+                                    <div class="modal-footer">
+                                    <input type="submit" value="Delete" class="btn btn-danger">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    </div>
+                            
+                                </div>
+                                </div>
+                            </div>
                         </form>
                     </td>
                 </tr>
