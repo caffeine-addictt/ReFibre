@@ -1,11 +1,11 @@
-# grp3_appdev
+# ReFibre
 NYP Semester 2, group3 appdev project
 
 ## Installation
 Clone the repository
 ```sh
-git clone https://github.com/caffeine-addictt/grp3_appdev
-cd grp3_appdev
+git clone https://github.com/caffeine-addictt/ReFibre
+cd ReFibre
 code .
 ```
 
