@@ -9,7 +9,7 @@ assignees: KenNoYu
 
 # Bug report
 Your issue may already be reported!
-Please check out our [active issues](https://github.com/caffeine-addictt/ReFibre/issues) before creating one.
+Please check out our [active issues](https://github.com/caffeine-addictt/ReFiber/issues) before creating one.
 
 
 

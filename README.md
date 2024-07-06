@@ -1,11 +1,11 @@
-# ReFibre
+# ReFiber
 NYP Semester 2, group3 appdev project
 
 ## Installation
 Clone the repository
 ```sh
-git clone https://github.com/caffeine-addictt/ReFibre
-cd ReFibre
+git clone https://github.com/caffeine-addictt/ReFiber
+cd ReFiber
 code .
 ```
 
