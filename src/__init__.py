@@ -23,7 +23,7 @@ def home():
         if session["user"] == "admin.refiber@gmail.com":
             pass
     except:
-        session["user"] == None
+        session["user"] = None
     return render_template('info_page/home.html')
 
 # Route for contact us page
